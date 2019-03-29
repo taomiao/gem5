@@ -52,6 +52,69 @@ using namespace std;
 
 /**** SimpleRenameMap methods ****/
 
+
+SimpleVirRenameMap::SimpleVirRenameMap()
+    : freeList(NULL), zeroReg(IntRegClass,0)
+{
+}
+
+
+void
+SimpleVirRenameMap::init(unsigned size, SimpleFreeList *_freeList,
+                      RegIndex _zeroReg)
+{
+    assert(freeList == NULL);
+    assert(map.empty());
+
+    map.resize(size);
+    freeList = _freeList;
+    zeroReg = RegId(IntRegClass, _zeroReg);
+//	PhysRegIdPtr zReg = freeList->getReg();
+//	for (int i=0;i<size;i++){
+//		map[i] = zReg;
+//	}
+}
+
+SimpleVirRenameMap::RenameInfo
+SimpleVirRenameMap::rename(const RegId& arch_reg,const PhysRegIdPtr& vir_reg)
+{
+        DPRINTF(Rename,"get into vir rename with arch_reg is %d and vir_reg is %d\n",arch_reg.flatIndex(),(long)vir_reg);
+    PhysRegIdPtr renamed_reg;
+
+    // Record the current physical register that is renamed to the
+    // requested architected register.
+    PhysRegIdPtr prev_reg = map[(long)vir_reg];
+
+    // If it's not referencing the zero register, then rename the
+    // register.
+    if (arch_reg != zeroReg) {
+                // v_freelist
+
+        renamed_reg = freeList->getReg();
+
+        map[(long)vir_reg] = renamed_reg;
+    } else {
+        // Otherwise return the zero register so nothing bad happens.
+        assert(prev_reg->isZeroReg());
+        renamed_reg = prev_reg;
+    }
+
+    DPRINTF(Rename, "Renamed reg %d to virtual reg %d (%d) physical reg %d (%d) old mapping was"
+            " %d (%d)\n",
+            arch_reg,(long)vir_reg, (long)vir_reg, renamed_reg->flatIndex(), renamed_reg->flatIndex(),
+            (long)prev_reg, (long)prev_reg);
+
+    //return RenameInfo(renamed_reg, prev_reg);
+        RenameInfo renamed_info;
+        renamed_info.push_back(vir_reg);
+        renamed_info.push_back(renamed_reg);
+        renamed_info.push_back(prev_reg);
+        return renamed_info;
+}
+
+
+
+
 SimpleRenameMap::SimpleRenameMap()
     : freeList(NULL), zeroReg(IntRegClass,0)
 {
@@ -73,7 +136,9 @@ SimpleRenameMap::init(unsigned size, SimpleFreeList *_freeList,
 SimpleRenameMap::RenameInfo
 SimpleRenameMap::rename(const RegId& arch_reg)
 {
+        DPRINTF(Rename,"get into simple rename func with arch_reg is %d,map size is %d,freelist is XX\n",arch_reg.flatIndex(),map.size());
     PhysRegIdPtr renamed_reg;
+
     // Record the current physical register that is renamed to the
     // requested architected register.
     PhysRegIdPtr prev_reg = map[arch_reg.flatIndex()];
@@ -81,8 +146,10 @@ SimpleRenameMap::rename(const RegId& arch_reg)
     // If it's not referencing the zero register, then rename the
     // register.
     if (arch_reg != zeroReg) {
-        renamed_reg = freeList->getReg();
+                // v_freelist
 
+        renamed_reg = freeList->getReg();
+                DPRINTF(Rename,"prev_reg is %d , get vir reg is %d\n",(long)prev_reg,(long)renamed_reg);
         map[arch_reg.flatIndex()] = renamed_reg;
     } else {
         // Otherwise return the zero register so nothing bad happens.
@@ -90,12 +157,17 @@ SimpleRenameMap::rename(const RegId& arch_reg)
         renamed_reg = prev_reg;
     }
 
-    DPRINTF(Rename, "Renamed reg %d to physical reg %d (%d) old mapping was"
+    DPRINTF(Rename, "Renamed reg %d to vir reg %d (%d) old mapping was"
             " %d (%d)\n",
-            arch_reg, renamed_reg->flatIndex(), renamed_reg->flatIndex(),
-            prev_reg->flatIndex(), prev_reg->flatIndex());
+            arch_reg,(long)renamed_reg, (long)renamed_reg,
+            (long)prev_reg, (long)prev_reg);
 
-    return RenameInfo(renamed_reg, prev_reg);
+    //return RenameInfo(renamed_reg, prev_reg);
+        RenameInfo renamed_info;
+        renamed_info.push_back(renamed_reg);
+        renamed_info.push_back(NULL);
+        renamed_info.push_back(prev_reg);
+        return renamed_info;
 }
 
 
@@ -106,10 +178,25 @@ UnifiedRenameMap::init(PhysRegFile *_regFile,
                        RegIndex _intZeroReg,
                        RegIndex _floatZeroReg,
                        UnifiedFreeList *freeList,
+                                           UnifiedFreeList *vir_freeList,
                        VecMode _mode)
 {
     regFile = _regFile;
     vecMode = _mode;
+
+    vir_intMap.init(vir_freeList->numFreeIntRegs(), &(vir_freeList->intList), _intZeroReg);
+
+    vir_floatMap.init(vir_freeList->numFreeFloatRegs(), &(vir_freeList->floatList), _floatZeroReg);
+
+    vir_vecMap.init(vir_freeList->numFreeVecRegs(), &(vir_freeList->vecList), (RegIndex)-1);
+
+    vir_vecElemMap.init(vir_freeList->numFreeVecRegs() * NVecElems,
+            &(vir_freeList->vecElemList), (RegIndex)-1);
+
+    vir_predMap.init(vir_freeList->numFreeVecPredRegs(), &(vir_freeList->predList), (RegIndex)-1);
+
+    vir_ccMap.init(vir_freeList->numFreeCCRegs(), &(vir_freeList->ccList), (RegIndex)-1);
+
 
     intMap.init(TheISA::NumIntRegs, &(freeList->intList), _intZeroReg);
 

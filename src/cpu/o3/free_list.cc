@@ -46,3 +46,35 @@ UnifiedFreeList::UnifiedFreeList(const std::string &_my_name,
     // about its internal organization
     regFile->initFreeList(this);
 }
+UnifiedFreeList::UnifiedFreeList(const std::string &_my_name, int vir_int_reg,
+                                             int vir_float_reg,
+                                                                                     int vir_vec_reg,
+                                                                                         int vir_vecpred_reg,
+                                                                                         int vir_cc_reg,
+                                                                                         Enums::VecRegRenameMode vec_mode)
+: _name(_my_name), regFile(NULL)
+{
+    DPRINTF(FreeList, "Creating virtual free list object.\n");
+
+    // Have the register file initialize the free list since it knows
+    // about its internal organization
+    //regFile->initFreeList(this);
+        for (long i=0;i<vir_int_reg;i++){
+                this->addIntReg((PhysRegId*)i);
+        }
+        for (long i=0;i<vir_float_reg;i++){
+                this->addFloatReg((PhysRegIdPtr)i);
+        }
+        for (long i=0;i<vir_vec_reg;i++){
+            if (vec_mode == Enums::Full)
+                        addVecReg((PhysRegIdPtr)i);
+                else
+                        addVecElem((PhysRegIdPtr)i);
+        }
+        for (long i=0;i<vir_vecpred_reg;i++){
+                addVecPredReg((PhysRegIdPtr)i);
+        }
+        for (long i=0;i<vir_cc_reg;i++){
+                addCCReg((PhysRegIdPtr)i);
+        }
+}

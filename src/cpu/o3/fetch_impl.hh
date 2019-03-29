@@ -733,7 +733,6 @@ DefaultFetch<Impl>::finishTranslation(const Fault &fault,
         DynInstPtr instruction = buildInst(tid, StaticInst::nopStaticInstPtr,
                                            NULL, fetchPC, fetchPC, false);
         instruction->setNotAnInst();
-
         instruction->setPredTarg(fetchPC);
         instruction->fault = fault;
         wroteToTimeBuffer = true;
@@ -1144,6 +1143,7 @@ DefaultFetch<Impl>::buildInst(ThreadID tid, StaticInstPtr staticInst,
     // Keep track of if we can take an interrupt at this boundary
     delayedCommit[tid] = instruction->isDelayedCommit();
 
+    std::cout<<"build:";instruction->dump();
     return instruction;
 }
 

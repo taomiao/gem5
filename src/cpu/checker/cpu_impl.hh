@@ -479,6 +479,7 @@ template <class Impl>
 void
 Checker<Impl>::validateExecution(const DynInstPtr &inst)
 {
+        DPRINTF(Checker,"get into validateExecution\n");
     InstResult checker_val;
     InstResult inst_val;
     int idx = -1;
@@ -600,6 +601,7 @@ Checker<Impl>::copyResult(const DynInstPtr &inst,
 {
     // We've already popped one dest off the queue,
     // so do the fix-up then start with the next dest reg;
+        DPRINTF(Checker,"get into copyResult\n");
     if (start_idx >= 0) {
         const RegId& idx = inst->destRegIdx(start_idx);
         switch (idx.classValue()) {

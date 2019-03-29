@@ -43,6 +43,7 @@
 #ifndef __BASE_REFCNT_HH__
 #define __BASE_REFCNT_HH__
 
+#include <cstdio>
 #include <type_traits>
 
 /**
@@ -91,7 +92,9 @@ class RefCounted
      * ever choose to delete a "RefCounted *" which I doubt we'd ever
      * do.  We don't ever delete a "void *".
      */
-    virtual ~RefCounted() {}
+    virtual ~RefCounted() {
+                printf("~RefCounted()\n");
+        }
 
     /// Increment the reference count
     void incref() const { ++count; }

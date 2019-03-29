@@ -629,6 +629,7 @@ DefaultIEW<Impl>::instToCommit(const DynInstPtr& inst)
     // and write the instruction to that time.  If there are not,
     // keep looking back to see where's the first time there's a
     // free slot.
+        std::cout<<"instToCommit:";inst->dump();
     while ((*iewQueue)[wbCycle].insts[wbNumInst]) {
         ++wbNumInst;
         if (wbNumInst == wbWidth) {
@@ -1148,7 +1149,7 @@ DefaultIEW<Impl>::dispatchInsts(ThreadID tid)
         if (add_to_iq) {
             instQueue.insert(inst);
         }
-
+                DPRINTF(IEW,"add to iq end\n");
         insts_to_dispatch.pop();
 
         toRename->iewInfo[tid].dispatched++;
@@ -1234,7 +1235,7 @@ DefaultIEW<Impl>::executeInsts()
         // Notify potential listeners that this instruction has started
         // executing
         ppExecute->notify(inst);
-
+                DPRINTF(IEW,"iew checkpoint 0\n");
         // Check if the instruction is squashed; if so then skip it
         if (inst->isSquashed()) {
             DPRINTF(IEW, "Execute: Instruction was squashed. PC: %s, [tid:%i]"
@@ -1280,6 +1281,7 @@ DefaultIEW<Impl>::executeInsts()
             } else if (inst->isLoad()) {
                 // Loads will mark themselves as executed, and their writeback
                 // event adds the instruction to the queue to commit
+                                DPRINTF(IEW,"iew is load checkpoint 1\n");
                 fault = ldstQueue.executeLoad(inst);
 
                 if (inst->isTranslationDelayed() &&
@@ -1333,7 +1335,9 @@ DefaultIEW<Impl>::executeInsts()
             // If we execute the instruction (even if it's a nop) the fault
             // will be replaced and we will lose it.
             if (inst->getFault() == NoFault) {
+                                DPRINTF(IEW,"iew checkpoint 1 before exe\n");
                 inst->execute();
+                                DPRINTF(IEW,"iew checkpoint 2 after exe\n");
                 if (!inst->readPredicate())
                     inst->forwardOldRegs();
             }
@@ -1471,13 +1475,13 @@ DefaultIEW<Impl>::writebackInsts()
         // when it's ready to execute the strictly ordered load.
         if (!inst->isSquashed() && inst->isExecuted() && inst->getFault() == NoFault) {
             int dependents = instQueue.wakeDependents(inst);
-
+                        DPRINTF(IEW,"writebackInsts checkpoint 1\n");
             for (int i = 0; i < inst->numDestRegs(); i++) {
                 //mark as Ready
-                DPRINTF(IEW,"Setting Destination Register %i (%s)\n",
-                        inst->renamedDestRegIdx(i)->index(),
-                        inst->renamedDestRegIdx(i)->className());
-                scoreboard->setReg(inst->renamedDestRegIdx(i));
+                DPRINTF(IEW,"Setting virtual Destination Register %i\n",
+                        (long)(inst->renamedVirDestRegIdx(i)));
+                       // inst->renamedDestRegIdx(i)->className());
+                scoreboard->setReg(inst->renamedVirDestRegIdx(i));
             }
 
             if (dependents) {
@@ -1522,6 +1526,7 @@ DefaultIEW<Impl>::tick()
     if (exeStatus != Squashing) {
         executeInsts();
 
+                DPRINTF(IEW,"after executeInsts(),runing writebackInsts()\n");
         writebackInsts();
 
         // Have the instruction queue try to schedule any ready instructions.

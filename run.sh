@@ -1,0 +1,1 @@
+./build/RISCV/gem5.opt --debug-flags=O3CPU,O3CPUAll,O3PipeView,RiscvMisc,Branch --debug-file=my_trace.out ./configs/example/se.py --cmd=tests/test-progs/hello/bin/riscv/linux/hello --cpu-type=DerivO3CPU --caches

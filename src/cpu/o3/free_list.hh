@@ -167,7 +167,13 @@ class UnifiedFreeList
      *                           used by initial mappings.
      */
     UnifiedFreeList(const std::string &_my_name, PhysRegFile *_regFile);
-
+        UnifiedFreeList(const std::string &_my_name, int vir_int_reg,
+                                                                                                 int vir_float_reg,
+                                                                                                 int vir_vec_reg,
+                                                                                                 int vir_vecpred_reg,
+                                                                                                 int vir_cc_reg,
+                                                                                                 Enums::VecRegRenameMode vec_mode
+                                                                                                 );
     /** Gives the name of the freelist. */
     std::string name() const { return _name; };
 
@@ -194,6 +200,8 @@ class UnifiedFreeList
 
     /** Adds a register back to the free list. */
     void addReg(PhysRegIdPtr freed_reg);
+        //this is for vir_freeList
+        void addReg(const RegId& arch_reg, VirsRegIdPtr freed_reg);
 
     /** Adds a register back to the free list. */
     template<class InputIt>
@@ -323,8 +331,42 @@ UnifiedFreeList::addReg(PhysRegIdPtr freed_reg)
             break;
         default:
             panic("Unexpected RegClass (%s)",
-                                   freed_reg->className());
-    }
+                        freed_reg->className());
+        }
+}
+
+
+inline void
+UnifiedFreeList::addReg(const RegId& arch_reg, VirsRegIdPtr freed_reg)
+{
+    DPRINTF(FreeList,"Freeing register %i (%s).\n", (long)freed_reg,
+            arch_reg.className());
+    //Might want to add in a check for whether or not this register is
+    //already in there.  A bit vector or something similar would be useful.
+    switch (arch_reg.classValue()) {
+        case IntRegClass:
+            intList.addReg(freed_reg);
+            break;
+        case FloatRegClass:
+            floatList.addReg(freed_reg);
+            break;
+        case VecRegClass:
+            vecList.addReg(freed_reg);
+            break;
+        case VecElemClass:
+            vecElemList.addReg(freed_reg);
+            break;
+        case VecPredRegClass:
+            predList.addReg(freed_reg);
+            break;
+        case CCRegClass:
+            ccList.addReg(freed_reg);
+            break;
+        default:
+            panic("Unexpected RegClass (%s)",
+                        arch_reg.className());
+        }
+}
 
     // These assert conditions ensure that the number of free
     // registers are not more than the # of total Physical  Registers.
@@ -337,7 +379,6 @@ UnifiedFreeList::addReg(PhysRegIdPtr freed_reg)
     // ----
     // assert(freeIntRegs.size() <= numPhysicalIntRegs);
     // assert(freeFloatRegs.size() <= numPhysicalFloatRegs);
-}
 
 
 #endif // __CPU_O3_FREE_LIST_HH__

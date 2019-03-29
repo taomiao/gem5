@@ -134,9 +134,12 @@ BaseO3DynInst<Impl>::execute()
     // the TC).  Fix this.
     bool no_squash_from_TC = this->thread->noSquashFromTC;
     this->thread->noSquashFromTC = true;
-
+        DPRINTF(O3PipeView,"execute checkpoint 0\n");
+        //for (int i=0;i<this->staticInst->srcRegNum();i++){
+        //	DPRINTF(O3PipView,
+        //}
     this->fault = this->staticInst->execute(this, this->traceData);
-
+        DPRINTF(O3PipeView,"execute checkpoint 1\n");
     this->thread->noSquashFromTC = no_squash_from_TC;
 
     return this->fault;

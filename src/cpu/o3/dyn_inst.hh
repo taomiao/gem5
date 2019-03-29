@@ -48,11 +48,12 @@
 
 #include "arch/isa_traits.hh"
 #include "config/the_isa.hh"
-#include "cpu/o3/cpu.hh"
-#include "cpu/o3/isa_specific.hh"
 #include "cpu/base_dyn_inst.hh"
 #include "cpu/inst_seq.hh"
+#include "cpu/o3/cpu.hh"
+#include "cpu/o3/isa_specific.hh"
 #include "cpu/reg_class.hh"
+#include "debug/O3CPU.hh"
 
 class Packet;
 
@@ -104,8 +105,12 @@ class BaseO3DynInst : public BaseDynInst<Impl>
   protected:
     /** Explicitation of dependent names. */
     using BaseDynInst<Impl>::cpu;
-    using BaseDynInst<Impl>::_srcRegIdx;
-    using BaseDynInst<Impl>::_destRegIdx;
+    using BaseDynInst<Impl>::_virSrcRegIdx;
+    using BaseDynInst<Impl>::_virDestRegIdx;
+
+    using BaseDynInst<Impl>::_physSrcRegIdx;
+    using BaseDynInst<Impl>::_physDestRegIdx;
+
 
     /** Values to be written to the destination misc. registers. */
     std::array<RegVal, TheISA::MaxMiscDestRegs> _destMiscRegVal;
@@ -211,9 +216,13 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     {
 
         for (int idx = 0; idx < this->numDestRegs(); idx++) {
-            PhysRegIdPtr prev_phys_reg = this->prevDestRegIdx(idx);
+
+                        DPRINTF(O3CPU,"set int reg operand id %d\n",idx);
+            VirsRegIdPtr prev_vir_reg = this->prevDestRegIdx(idx);
             const RegId& original_dest_reg =
                 this->staticInst->destRegIdx(idx);
+                        PhysRegIdPtr prev_phys_reg = this->cpu->lookup(this->threadNumber,original_dest_reg,prev_vir_reg);
+                        DPRINTF(O3CPU,"set int reg operand id %d prev_vir_reg %d prev_phys_reg %d\n",idx,(long)prev_vir_reg,prev_phys_reg->index());
             switch (original_dest_reg.classValue()) {
               case IntRegClass:
                 this->setIntRegOperand(this->staticInst.get(), idx,
@@ -270,22 +279,40 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     // storage (which is pretty hard to imagine they would have reason
     // to do).
 
+        void reWritePhysRegs(VirsRegIdPtr vir_dst_reg,PhysRegIdPtr dest_reg)
+        {
+                for (int i=0;i<this->numSrcRegs();i++){
+                        if (this->_virSrcRegIdx[i]==vir_dst_reg){
+                                DPRINTF(O3CPU,"reWritePhysRegs rewrite vir_reg %d to phys_reg %d\n",(long)vir_dst_reg, dest_reg->index());
+                                assert(this->_physSrcRegIdx[i]==NULL);
+                                this->_physSrcRegIdx[i] = dest_reg;
+                        }
+                }
+        }
+
     RegVal
     readIntRegOperand(const StaticInst *si, int idx) override
     {
-        return this->cpu->readIntReg(this->_srcRegIdx[idx]);
+        //	const RegId& arch_reg = si->srcRegIdx(idx);
+        //	VirsRegIdPtr vir_reg = (this->cpu)->lookup(this->threadNumber,arch_reg);
+        //	PhysRegIdPtr phys_reg = (this->cpu)->lookup(this->threadNumber,arch_reg,vir_reg);
+        //	DPRINTF(O3CPU," arch_reg %d vir_reg %d\n",arch_reg.index(),(long)vir_reg);
+                DPRINTF(O3CPU,"readIntRegOperand phys_reg is %d \n",this->_physSrcRegIdx[idx]->index());
+                assert(this->_physSrcRegIdx[idx] != NULL);
+        //	this->_physSrcRegIdx[idx] = phys_reg;
+        return this->cpu->readIntReg(this->_physSrcRegIdx[idx]);
     }
 
     RegVal
     readFloatRegOperandBits(const StaticInst *si, int idx) override
     {
-        return this->cpu->readFloatReg(this->_srcRegIdx[idx]);
+        return this->cpu->readFloatReg(this->_physSrcRegIdx[idx]);
     }
 
     const VecRegContainer&
     readVecRegOperand(const StaticInst *si, int idx) const override
     {
-        return this->cpu->readVecReg(this->_srcRegIdx[idx]);
+        return this->cpu->readVecReg(this->_physSrcRegIdx[idx]);
     }
 
     /**
@@ -294,7 +321,10 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     VecRegContainer&
     getWritableVecRegOperand(const StaticInst *si, int idx) override
     {
-        return this->cpu->getWritableVecReg(this->_destRegIdx[idx]);
+                if (this->_physDestRegIdx[idx]==NULL){
+                        panic("physical  reg is not allocated\n");
+                }
+        return this->cpu->getWritableVecReg(this->_physDestRegIdx[idx]);
     }
 
     /** Vector Register Lane Interfaces. */
@@ -303,28 +333,28 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     ConstVecLane8
     readVec8BitLaneOperand(const StaticInst *si, int idx) const override
     {
-        return cpu->template readVecLane<uint8_t>(_srcRegIdx[idx]);
+        return cpu->template readVecLane<uint8_t>(_physSrcRegIdx[idx]);
     }
 
     /** Reads source vector 16bit operand. */
     ConstVecLane16
     readVec16BitLaneOperand(const StaticInst *si, int idx) const override
     {
-        return cpu->template readVecLane<uint16_t>(_srcRegIdx[idx]);
+        return cpu->template readVecLane<uint16_t>(_physSrcRegIdx[idx]);
     }
 
     /** Reads source vector 32bit operand. */
     ConstVecLane32
     readVec32BitLaneOperand(const StaticInst *si, int idx) const override
     {
-        return cpu->template readVecLane<uint32_t>(_srcRegIdx[idx]);
+        return cpu->template readVecLane<uint32_t>(_physSrcRegIdx[idx]);
     }
 
     /** Reads source vector 64bit operand. */
     ConstVecLane64
     readVec64BitLaneOperand(const StaticInst *si, int idx) const override
     {
-        return cpu->template readVecLane<uint64_t>(_srcRegIdx[idx]);
+        return cpu->template readVecLane<uint64_t>(_physSrcRegIdx[idx]);
     }
 
     /** Write a lane of the destination vector operand. */
@@ -332,7 +362,10 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     void
     setVecLaneOperandT(const StaticInst *si, int idx, const LD& val)
     {
-        return cpu->template setVecLane(_destRegIdx[idx], val);
+                if (_physDestRegIdx[idx]==NULL){
+                        panic("physical reg is not allocated 0\n");
+                }
+        return cpu->template setVecLane(_physDestRegIdx[idx], val);
     }
     virtual void
     setVecLaneOperand(const StaticInst *si, int idx,
@@ -362,25 +395,28 @@ class BaseO3DynInst : public BaseDynInst<Impl>
 
     VecElem readVecElemOperand(const StaticInst *si, int idx) const override
     {
-        return this->cpu->readVecElem(this->_srcRegIdx[idx]);
+        return this->cpu->readVecElem(this->_physSrcRegIdx[idx]);
     }
 
     const VecPredRegContainer&
     readVecPredRegOperand(const StaticInst *si, int idx) const override
     {
-        return this->cpu->readVecPredReg(this->_srcRegIdx[idx]);
+        return this->cpu->readVecPredReg(this->_physSrcRegIdx[idx]);
     }
 
     VecPredRegContainer&
     getWritableVecPredRegOperand(const StaticInst *si, int idx) override
     {
-        return this->cpu->getWritableVecPredReg(this->_destRegIdx[idx]);
+                if (this->_physDestRegIdx[idx]==NULL){
+                        panic("physical reg is not allocated 1\n");
+                }
+        return this->cpu->getWritableVecPredReg(this->_physDestRegIdx[idx]);
     }
 
     RegVal
     readCCRegOperand(const StaticInst *si, int idx) override
     {
-        return this->cpu->readCCReg(this->_srcRegIdx[idx]);
+        return this->cpu->readCCReg(this->_physSrcRegIdx[idx]);
     }
 
     /** @todo: Make results into arrays so they can handle multiple dest
@@ -389,14 +425,48 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     void
     setIntRegOperand(const StaticInst *si, int idx, RegVal val) override
     {
-        this->cpu->setIntReg(this->_destRegIdx[idx], val);
-        BaseDynInst<Impl>::setIntRegOperand(si, idx, val);
+                if (this->_physDestRegIdx[idx]!=NULL){
+                        const RegId& arch_reg = si->destRegIdx(idx);
+                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(),(long)(this->_virDestRegIdx[idx]));
+                        PhysRegIdPtr phys_reg = this->cpu->lookup(this->threadNumber,arch_reg,this->_virDestRegIdx[idx]);
+                        if (phys_reg!=NULL){
+                                DPRINTF(O3CPU,"get dest phys reg is %d\n",phys_reg->index());
+                        }
+                        else{
+                                DPRINTF(O3CPU,"phys_reg is NULL,do not know where the phys reg comes!!!\n");
+                        }
+                }
+
+                if (true){//this->_physDestRegIdx[idx]==NULL){
+                        // get a physical reg
+                        const RegId& arch_reg = si->destRegIdx(idx);
+                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(),(long)(this->_virDestRegIdx[idx]));
+                        PhysRegIdPtr phys_reg = this->cpu->getPhysReg(this->threadNumber,arch_reg,this->_virDestRegIdx[idx]);
+                        DPRINTF(O3CPU,"get dest phys reg is %d\n",phys_reg->index());
+                        this->_physDestRegIdx[idx] = phys_reg;
+                        //panic("physical reg is not allocated 2\n");
+                }
+                DPRINTF(O3CPU,"regval is %d\n",val);
+        this->cpu->setIntReg(this->_physDestRegIdx[idx], val);
+                this->dump();
+                //std::cout<<"test1"<<std::endl;
+        //BaseDynInst<Impl>::setIntRegOperand(si, idx, val);
+                //std::cout<<"test2"<<std::endl;
     }
 
     void
     setFloatRegOperandBits(const StaticInst *si, int idx, RegVal val) override
     {
-        this->cpu->setFloatReg(this->_destRegIdx[idx], val);
+                if (this->_physDestRegIdx[idx]==NULL){
+                        // get a physical reg
+                        const RegId& arch_reg = si->destRegIdx(idx);
+                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(),(long)(this->_virDestRegIdx[idx]));
+                        PhysRegIdPtr phys_reg = this->cpu->getPhysReg(this->threadNumber,arch_reg,this->_virDestRegIdx[idx]);
+                        DPRINTF(O3CPU,"get dest phys reg is %d\n",phys_reg->index());
+                        this->_physDestRegIdx[idx] = phys_reg;
+                        //panic("physical reg is not allocated 2\n");
+                }
+        this->cpu->setFloatReg(this->_physDestRegIdx[idx], val);
         BaseDynInst<Impl>::setFloatRegOperandBits(si, idx, val);
     }
 
@@ -404,7 +474,10 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     setVecRegOperand(const StaticInst *si, int idx,
                      const VecRegContainer& val) override
     {
-        this->cpu->setVecReg(this->_destRegIdx[idx], val);
+                if (this->_physDestRegIdx[idx]==NULL){
+                        panic("physical reg is not allocated 3\n");
+                }
+        this->cpu->setVecReg(this->_physDestRegIdx[idx], val);
         BaseDynInst<Impl>::setVecRegOperand(si, idx, val);
     }
 
@@ -412,7 +485,7 @@ class BaseO3DynInst : public BaseDynInst<Impl>
                            const VecElem val) override
     {
         int reg_idx = idx;
-        this->cpu->setVecElem(this->_destRegIdx[reg_idx], val);
+        this->cpu->setVecElem(this->_physDestRegIdx[reg_idx], val);
         BaseDynInst<Impl>::setVecElemOperand(si, idx, val);
     }
 
@@ -420,13 +493,19 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     setVecPredRegOperand(const StaticInst *si, int idx,
                          const VecPredRegContainer& val) override
     {
-        this->cpu->setVecPredReg(this->_destRegIdx[idx], val);
+                if (this->_physDestRegIdx[idx]==NULL){
+                        panic("physical reg is not allocated\n");
+                }
+        this->cpu->setVecPredReg(this->_physDestRegIdx[idx], val);
         BaseDynInst<Impl>::setVecPredRegOperand(si, idx, val);
     }
 
     void setCCRegOperand(const StaticInst *si, int idx, RegVal val) override
     {
-        this->cpu->setCCReg(this->_destRegIdx[idx], val);
+                if (this->_physDestRegIdx[idx]==NULL){
+                        panic("preg is not allocated\n");
+                }
+        this->cpu->setCCReg(this->_physDestRegIdx[idx], val);
         BaseDynInst<Impl>::setCCRegOperand(si, idx, val);
     }
 
@@ -447,4 +526,3 @@ class BaseO3DynInst : public BaseDynInst<Impl>
 };
 
 #endif // __CPU_O3_ALPHA_DYN_INST_HH__
-

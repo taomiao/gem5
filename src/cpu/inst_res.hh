@@ -44,6 +44,7 @@
 
 #include "arch/generic/types.hh"
 #include "arch/generic/vec_reg.hh"
+#include "debug/O3CPU.hh"
 
 class InstResult {
     using VecRegContainer = TheISA::VecRegContainer;
@@ -94,6 +95,10 @@ class InstResult {
     explicit InstResult(const VecPredRegContainer& v, const ResultType& t)
         : type(t) { result.pred = v; }
 
+        ~InstResult()
+        {
+                DPRINTF(O3CPU,"get into ~InstResult\n");
+        }
     InstResult& operator=(const InstResult& that) {
         type = that.type;
         switch (type) {

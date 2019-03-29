@@ -50,6 +50,7 @@
 #include "arch/types.hh"
 #include "base/types.hh"
 #include "cpu/inst_seq.hh"
+#include "debug/IEW.hh"
 #include "sim/faults.hh"
 
 /** Struct that defines the information passed from fetch to decode. */
@@ -102,6 +103,13 @@ struct DefaultIEWDefaultCommit {
     bool branchMispredict[Impl::MaxThreads];
     bool branchTaken[Impl::MaxThreads];
     bool includeSquashInst[Impl::MaxThreads];
+
+        DefaultIEWDefaultCommit(){
+                DPRINTF(IEW,"DefaultIEWDefaultCommit()\n");
+        }
+        ~DefaultIEWDefaultCommit(){
+                DPRINTF(IEW,"~DefaultIEWDefaultCommit()\n");
+        }
 };
 
 template<class Impl>

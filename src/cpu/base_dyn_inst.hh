@@ -64,6 +64,7 @@
 #include "cpu/op_class.hh"
 #include "cpu/static_inst.hh"
 #include "cpu/translation.hh"
+#include "debug/O3CPU.hh"
 #include "mem/packet.hh"
 #include "mem/request.hh"
 #include "sim/byteswap.hh"
@@ -246,23 +247,49 @@ class BaseDynInst : public ExecContext, public RefCounted
      */
     std::array<RegId, TheISA::MaxInstDestRegs> _flatDestRegIdx;
 
+        //arch_regs
+        std::array<RegId ,TheISA::MaxInstDestRegs> _archDestRegIdx;
+        std::array<RegId ,TheISA::MaxInstSrcRegs> _archSrcRegIdx;
+
+//taomiao virtual dst regs,records physical regs
+        std::array<VirsRegIdPtr,TheISA::MaxInstDestRegs> _virDestRegIdx;
+        //taomiao virtual src regs
+        std::array<VirsRegIdPtr,TheISA::MaxInstSrcRegs> _virSrcRegIdx;
+
     /** Physical register index of the destination registers of this
      *  instruction.
      */
-    std::array<PhysRegIdPtr, TheISA::MaxInstDestRegs> _destRegIdx;
+    std::array<PhysRegIdPtr, TheISA::MaxInstDestRegs> _physDestRegIdx;
 
     /** Physical register index of the source registers of this
      *  instruction.
      */
-    std::array<PhysRegIdPtr, TheISA::MaxInstSrcRegs> _srcRegIdx;
+    std::array<PhysRegIdPtr, TheISA::MaxInstSrcRegs> _physSrcRegIdx;
 
     /** Physical register index of the previous producers of the
      *  architected destinations.
      */
-    std::array<PhysRegIdPtr, TheISA::MaxInstDestRegs> _prevDestRegIdx;
+    std::array<PhysRegIdPtr, TheISA::MaxInstDestRegs> _prevVirDestRegIdx;
 
 
   public:
+
+        VirsRegIdPtr getVirDestRegIdx(int idx){
+                return _virDestRegIdx[idx];
+        }
+
+        VirsRegIdPtr getVirSrcRegIdx(int idx){
+                return _virSrcRegIdx[idx];
+        }
+
+        PhysRegIdPtr getPhysDestRegIdx(int idx){
+                return _physDestRegIdx[idx];
+        }
+
+        PhysRegIdPtr getPhysSrcRegIdx(int idx){
+                return _physSrcRegIdx[idx];
+        }
+
     /** Records changes to result? */
     void recordResult(bool f) { instFlags[RecordResult] = f; }
 
@@ -347,14 +374,25 @@ class BaseDynInst : public ExecContext, public RefCounted
      */
     PhysRegIdPtr renamedDestRegIdx(int idx) const
     {
-        return _destRegIdx[idx];
+        return _physDestRegIdx[idx];
+    }
+
+    VirsRegIdPtr renamedVirDestRegIdx(int idx) const
+    {
+        return _virDestRegIdx[idx];
     }
 
     /** Returns the physical register index of the i'th source register. */
     PhysRegIdPtr renamedSrcRegIdx(int idx) const
     {
         assert(TheISA::MaxInstSrcRegs > idx);
-        return _srcRegIdx[idx];
+        return _physSrcRegIdx[idx];
+    }
+
+    VirsRegIdPtr renamedVirSrcRegIdx(int idx) const
+    {
+        assert(TheISA::MaxInstSrcRegs > idx);
+        return _virSrcRegIdx[idx];
     }
 
     /** Returns the flattened register index of the i'th destination
@@ -370,27 +408,38 @@ class BaseDynInst : public ExecContext, public RefCounted
      */
     PhysRegIdPtr prevDestRegIdx(int idx) const
     {
-        return _prevDestRegIdx[idx];
+        return _prevVirDestRegIdx[idx];
     }
 
     /** Renames a destination register to a physical register.  Also records
      *  the previous physical register that the logical register mapped to.
      */
     void renameDestReg(int idx,
+                                           VirsRegIdPtr renamed_virdest,
                        PhysRegIdPtr renamed_dest,
                        PhysRegIdPtr previous_rename)
     {
-        _destRegIdx[idx] = renamed_dest;
-        _prevDestRegIdx[idx] = previous_rename;
+                DPRINTF(O3CPU,"idx is %d, renamd_virdest is %d, renamed_dest should be NULL and is %d, previous_rename is %d\n",idx,(long)renamed_virdest,renamed_dest,(long)previous_rename);
+
+                _virDestRegIdx[idx] = renamed_virdest;
+                _physDestRegIdx[(long)renamed_virdest] = renamed_dest;
+        _prevVirDestRegIdx[idx] = previous_rename;
     }
 
     /** Renames a source logical register to the physical register which
      *  has/will produce that logical register's result.
      *  @todo: add in whether or not the source register is ready.
      */
-    void renameSrcReg(int idx, PhysRegIdPtr renamed_src)
+    void renameSrcReg(int idx, VirsRegIdPtr renamed_virsrc, PhysRegIdPtr renamed_src )
     {
-        _srcRegIdx[idx] = renamed_src;
+                if (renamed_src == NULL){
+                        DPRINTF(O3CPU,"idx is %d, vir_src is %d, physical reg is not allocated yet\n",idx,(long)renamed_virsrc);
+                }
+                else{
+                        DPRINTF(O3CPU,"idx is %d , vir_renamed_src is %d, phys_renamed_src is %d\n",idx,(long)renamed_virsrc,renamed_src->index());
+        }
+                _virSrcRegIdx[idx] = renamed_virsrc;
+                _physSrcRegIdx[idx] = renamed_src;
     }
 
     /** Flattens a destination architectural register index into a logical
@@ -620,6 +669,7 @@ class BaseDynInst : public ExecContext, public RefCounted
     template<typename T>
     void setScalarResult(T&& t)
     {
+                DPRINTF(O3CPU,"setScalarResult\n");
         if (instFlags[RecordResult]) {
             instResult.push(InstResult(std::forward<T>(t),
                         InstResult::ResultType::Scalar));

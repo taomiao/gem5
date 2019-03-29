@@ -553,7 +553,15 @@ class FullO3CPU : public BaseO3CPU
 
     void setArchCCReg(int reg_idx, RegVal val, ThreadID tid);
 
-    /** Sets the commit PC state of a specific thread. */
+        VirsRegIdPtr lookup(ThreadID tid,const RegId& arch_reg){
+                return renameMap[tid].lookup(arch_reg);
+        }
+
+        PhysRegIdPtr lookup(ThreadID tid,const RegId& arch_reg,VirsRegIdPtr vir_reg){
+                return renameMap[tid].lookup(arch_reg,(long)vir_reg);
+        }
+
+        /** Sets the commit PC state of a specific thread. */
     void pcState(const TheISA::PCState &newPCState, ThreadID tid);
 
     /** Reads the commit PC state of a specific thread. */
@@ -653,6 +661,7 @@ class FullO3CPU : public BaseO3CPU
 
     /** The free list. */
     typename CPUPolicy::FreeList freeList;
+        typename CPUPolicy::FreeList vir_freeList;
 
     /** The rename map. */
     typename CPUPolicy::RenameMap renameMap[Impl::MaxThreads];
@@ -724,6 +733,8 @@ class FullO3CPU : public BaseO3CPU
 
     /** The IEW stage's instruction queue. */
     TimeBuffer<IEWStruct> iewQueue;
+
+        PhysRegIdPtr getPhysReg(ThreadID tid, const RegId& arch_reg, VirsRegIdPtr vir_reg);
 
   private:
     /** The activity recorder; used to tell if the CPU has any

@@ -161,6 +161,7 @@ BaseDynInst<Impl>::~BaseDynInst()
 #ifdef DEBUG
     cpu->snList.erase(seqNum);
 #endif
+        DPRINTF(DynInst,"~BaseDynInst checkpoint 0\n");
 
 }
 
@@ -209,6 +210,7 @@ BaseDynInst<Impl>::markSrcRegReady()
     if (++readyRegs == numSrcRegs()) {
         setCanIssue();
     }
+        DPRINTF(IQ, "[sn:%lli] canIssue %d\n",readyToIssue());
 }
 
 template <class Impl>

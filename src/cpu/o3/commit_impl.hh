@@ -1301,7 +1301,7 @@ DefaultCommit<Impl>::commitHead(const DynInstPtr &head_inst, unsigned inst_num)
     // Update the commit rename map
     for (int i = 0; i < head_inst->numDestRegs(); i++) {
         renameMap[tid]->setEntry(head_inst->flattenedDestRegIdx(i),
-                                 head_inst->renamedDestRegIdx(i));
+                                 head_inst->renamedVirDestRegIdx(i));
     }
 
     // Finally clear the head ROB entry.

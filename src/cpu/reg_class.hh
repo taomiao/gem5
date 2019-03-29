@@ -307,6 +307,23 @@ class PhysRegId : private RegId {
  * pointers */
 using PhysRegIdPtr = const PhysRegId*;
 
+
+//---------------------------------------taomiao virtual regidx
+using VirsRegIndex = short int;
+
+/** Physical register ID.
+ * Like a register ID but physical. The inheritance is private because the
+ * only relationship between this types is functional, and it is done to
+ * prevent code replication. */
+typedef long VirsRegId;
+
+
+//do not use this class
+using VirsRegIdPtr = const PhysRegId*;
+
+
+
+
 namespace std
 {
 template<>

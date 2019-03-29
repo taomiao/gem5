@@ -178,8 +178,12 @@ class DefaultRename
     /** Sets pointer to rename maps (per-thread structures). */
     void setRenameMap(RenameMap rm_ptr[Impl::MaxThreads]);
 
+    void setVirRenameMap(RenameMap rm_ptr[Impl::MaxThreads]);
+
     /** Sets pointer to the free list. */
     void setFreeList(FreeList *fl_ptr);
+
+    void setVirFreeList(FreeList *fl_ptr);
 
     /** Sets pointer to the scoreboard. */
     void setScoreboard(Scoreboard *_scoreboard);
@@ -360,9 +364,11 @@ class DefaultRename
 
     /** Rename map interface. */
     RenameMap *renameMap[Impl::MaxThreads];
+        RenameMap *virRenameMap[Impl::MaxThreads];
 
     /** Free list interface. */
     FreeList *freeList;
+        FreeList *virFreeList;
 
     /** Pointer to the list of active threads. */
     std::list<ThreadID> *activeThreads;
