@@ -444,8 +444,10 @@ class UnifiedRenameMap
      * @param arch_reg The architectural register to look up.
      * @return The physical register it is currently mapped to.
      */
-    PhysRegIdPtr lookup(const RegId& arch_reg,const RegIndex& vir_reg) const
+    PhysRegIdPtr lookup(const RegId& arch_reg,const VirsRegIdPtr& vir_regidptr) const
     {
+		RegIndex vir_reg = vir_regidptr->index();
+
         switch (arch_reg.classValue()) {
           case IntRegClass:{
                         DPRINTF(Rename,"look up arch_reg is %d , vir_reg is %d\n",arch_reg.index(),vir_reg);
@@ -530,41 +532,42 @@ class UnifiedRenameMap
         }
     }
 
-   void setEntry(const RegId& arch_reg, VirsRegIdPtr virs_reg, PhysRegIdPtr phys_reg)
+   void setEntry(const RegId& arch_reg, VirsRegIdPtr vir_regidptr, PhysRegIdPtr phys_reg)
     {
+		RegIndex virs_reg = vir_regidptr->index();
         switch (arch_reg.classValue()) {
           case IntRegClass:
             //assert(virs_reg->isIntPhysReg());
-            return vir_intMap.setEntry((long)virs_reg, phys_reg);
+            return vir_intMap.setEntry(virs_reg, phys_reg);
 
           case FloatRegClass:
             //assert(virs_reg->isFloatPhysReg());
-            return vir_floatMap.setEntry((long)virs_reg, phys_reg);
+            return vir_floatMap.setEntry(virs_reg, phys_reg);
 
           case VecRegClass:
             //assert(virs_reg->isVectorPhysReg());
             assert(vecMode == Enums::Full);
-            return vir_vecMap.setEntry((long)virs_reg, phys_reg);
+            return vir_vecMap.setEntry(virs_reg, phys_reg);
 
           case VecElemClass:
             //assert(virs_reg->isVectorPhysElem());
             assert(vecMode == Enums::Elem);
-            return vir_vecElemMap.setEntry((long)virs_reg, phys_reg);
+            return vir_vecElemMap.setEntry(virs_reg, phys_reg);
 
           case VecPredRegClass:
             //assert(virs_reg->isVecPredPhysReg());
-            return vir_predMap.setEntry((long)virs_reg, phys_reg);
+            return vir_predMap.setEntry(virs_reg, phys_reg);
 
           case CCRegClass:
             //assert(virs_reg->isCCPhysReg());
-            return vir_ccMap.setEntry((long)virs_reg, phys_reg);
+            return vir_ccMap.setEntry(virs_reg, phys_reg);
 
           case MiscRegClass:
             // Misc registers do not actually rename, so don't change
             // their mappings.  We end up here when a commit or squash
             // tries to update or undo a hardwired misc reg nmapping,
             // which should always be setting it to what it already is.
-            assert(virs_reg == lookup(arch_reg));
+            assert(vir_regidptr == lookup(arch_reg));
             return;
 
           default:
@@ -582,9 +585,9 @@ class UnifiedRenameMap
      * @param arch_reg The architectural register to remap.
      * @param phys_reg The physical register to remap it to.
      */
-    void setVirEntry(const RegId& arch_reg,const PhysRegIdPtr vir_reg_ptr, PhysRegIdPtr phys_reg)
+    void setVirEntry(const RegId& arch_reg,const PhysRegIdPtr vir_regidptr, PhysRegIdPtr phys_reg)
     {
-                RegIndex vir_reg =(long)vir_reg_ptr;
+                RegIndex vir_reg = vir_regidptr->index();
         switch (arch_reg.classValue()) {
           case IntRegClass:
             assert(phys_reg->isIntPhysReg());
@@ -617,7 +620,7 @@ class UnifiedRenameMap
             // their mappings.  We end up here when a commit or squash
             // tries to update or undo a hardwired misc reg nmapping,
             // which should always be setting it to what it already is.
-            assert(phys_reg == lookup(arch_reg,vir_reg));
+            assert(phys_reg == lookup(arch_reg,vir_regidptr));
             return;
 
           default:

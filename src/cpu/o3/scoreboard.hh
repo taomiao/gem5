@@ -59,7 +59,6 @@ class Scoreboard
     /** Scoreboard of physical integer registers, saying whether or not they
      *  are ready. */
     std::vector<bool> regScoreBoard;
-        std::vector<int> ref_cnt;
     /** The number of actual physical registers */
     unsigned M5_CLASS_VAR_USED numPhysRegs;
 
@@ -80,162 +79,59 @@ class Scoreboard
     /** Checks if the register is ready. */
     bool getReg(PhysRegIdPtr phys_reg) const
     {
-                DPRINTF(Scoreboard,"getreg phys_reg is %d\n",(long)phys_reg);
-        assert((long)phys_reg < numPhysRegs);
-
-        //if (phys_reg->isFixedMapping()) {
-            // Fixed mapping regs are always ready
-        //    return true;
-        //}
-
-        bool ready = regScoreBoard[(long)phys_reg];
-
-        //if (phys_reg->isZeroReg())
-        //    assert(ready);
-                if ( phys_reg == 0 )
-                        return true;
-        return ready;
-    }
-
-    /** get the register's ref_cnt. */
-    int getRegRefCnt(PhysRegIdPtr phys_reg) const
-    {
+                DPRINTF(Scoreboard,"getreg phys_reg is %d\n", phys_reg->flatIndex());
         assert(phys_reg->flatIndex() < numPhysRegs);
 
         if (phys_reg->isFixedMapping()) {
             // Fixed mapping regs are always ready
-            return 1;
+            return true;
         }
 
-        int rc = ref_cnt[phys_reg->flatIndex()];
+        bool ready = regScoreBoard[phys_reg->flatIndex()];
 
         if (phys_reg->isZeroReg())
-            assert(rc==1);
-
-        return rc;
+            assert(ready);
+        //        if ( phys_reg == 0 )
+        //                return true;
+        return ready;
     }
 
-
-    /** Sets the register as ready. */
+     /** Sets the register as ready. */
     void setReg(PhysRegIdPtr phys_reg)
     {
-                DPRINTF(Scoreboard,"1 setreg phys_reg is %d\n",(long)phys_reg);
-        assert( (long)phys_reg < numPhysRegs);
+                DPRINTF(Scoreboard,"1 setreg phys_reg is %d\n", phys_reg->flatIndex());
+        assert( phys_reg->flatIndex() < numPhysRegs);
 
-        //if (phys_reg->isFixedMapping()) {
+        if (phys_reg->isFixedMapping()) {
             // Fixed mapping regs are always ready, ignore attempts to change
             // that
-        //    return;
-        //}
+            return;
+        }
 
         DPRINTF(Scoreboard, "Setting reg %i as ready\n",
-                (long)phys_reg);
+                phys_reg->flatIndex());
 
-        regScoreBoard[(long)phys_reg] = true;
+        regScoreBoard[phys_reg->flatIndex()] = true;
     }
 
     /** Sets the register as not ready. */
     void unsetReg(PhysRegIdPtr phys_reg)
     {
-                DPRINTF(Scoreboard, "get into unset reg func reg id is %d\n",(long)phys_reg);
-        //assert(phys_reg->flatIndex() < numPhysRegs);
-                assert( (long)phys_reg <numPhysRegs );
-        //if (phys_reg->isFixedMapping()) {
+        DPRINTF(Scoreboard, "get into unset reg func reg id is %d\n",phys_reg->flatIndex());
+        assert(phys_reg->flatIndex() < numPhysRegs);
+        if (phys_reg->isFixedMapping()) {
             // Fixed mapping regs are always ready, ignore attempts to
             // change that
-        //    return;
-        //}
+            return;
+        }
 
         // zero reg should never be marked unready
-        //if (phys_reg->isZeroReg())
-        //    return;
-                if ((long)phys_reg==0){
-                        return;
-                }
-        regScoreBoard[(long)phys_reg] = false;
-    }
-
-
-    /** Sets the register as ready. */
-    void setRegRC(PhysRegIdPtr phys_reg,int rcv)
-    {
-                DPRINTF(Scoreboard,"set reg ref_cnt phys_reg is %d\n",(long)phys_reg);
-        //assert(phys_reg->flatIndex() < numPhysRegs);
-        assert((long)phys_reg < numPhysRegs);
-
-        //if (phys_reg->isFixedMapping()) {
-            // Fixed mapping regs are always ready, ignore attempts to change
-            // that
-        //    return;
-        //}
-
-        DPRINTF(Scoreboard, "Setting reg %i rcv as %i\n",
-                (long)phys_reg,/* phys_reg->className(),*/ rcv);
-
-        ref_cnt[(long)phys_reg] = rcv;
-    }
-
-    /** Sets the register as not ready. */
-    void unsetRegRC(PhysRegIdPtr phys_reg)
-    {
-                DPRINTF(Scoreboard,"unset reg ref_cnt phys_reg is %d\n",(long)phys_reg);
-        //assert(phys_reg->flatIndex() < numPhysRegs);
-        assert((long)phys_reg < numPhysRegs);
-
-        //if (phys_reg->isFixedMapping()) {
-            // Fixed mapping regs are always ready, ignore attempts to
-            // change that
-        //    return;
-        //}
-
-        // zero reg should never be marked unready
-        //if (phys_reg->isZeroReg())
-        //    return;
-                if ( (long)phys_reg == 0)
-                        return;
-
-        ref_cnt[(long)phys_reg] = 0;
-    }
-
-
-
-    /** add 1 the register's ref_cnt */
-    void incrRC(PhysRegIdPtr phys_reg)
-    {
-        assert((long)phys_reg < numPhysRegs);
-
-        //if (phys_reg->isFixedMapping()) {
-            // Fixed mapping regs are always ready, ignore attempts to change
-            // that
-        //    return;
-        //}
-
-        DPRINTF(Scoreboard, "Adding reg %i ref_cnt 1\n",
-                phys_reg);
-
-        ref_cnt[(long)phys_reg] += 1;
-    }
-
-    /** sub 1 the register's ref_cnt */
-    void decrRC(PhysRegIdPtr phys_reg)
-    {
-        assert((long)phys_reg < numPhysRegs);
-
-        //if (phys_reg->isFixedMapping()) {
-            // Fixed mapping regs are always ready, ignore attempts to
-            // change that
-        //    return;
-        //}
-
-        // zero reg should never be marked unready
-        //if (phys_reg->isZeroReg())
-        //    return;
-                if ((long)phys_reg == 0)
-                        return;
-        ref_cnt[(long)phys_reg] -= 1;
-                if (ref_cnt[(long)phys_reg] < 0){
-                        ref_cnt[(long)phys_reg] = 0;
-                }
+        if (phys_reg->isZeroReg())
+            return;
+        //        if ((long)phys_reg==0){
+         //              return;
+           //     }
+        regScoreBoard[phys_reg->flatIndex()] = false;
     }
 
 

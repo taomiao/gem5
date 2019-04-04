@@ -430,6 +430,10 @@ class FullO3CPU : public BaseO3CPU
 
     RegVal readFloatReg(PhysRegIdPtr phys_reg);
 
+	PhysRegIdPtr searchRegVal(RegClass cls, RegVal val);
+
+	void addPhysRegRC(PhysRegIdPtr reg);
+
     const VecRegContainer& readVecReg(PhysRegIdPtr reg_idx) const;
 
     /**
@@ -558,9 +562,16 @@ class FullO3CPU : public BaseO3CPU
         }
 
         PhysRegIdPtr lookup(ThreadID tid,const RegId& arch_reg,VirsRegIdPtr vir_reg){
-                return renameMap[tid].lookup(arch_reg,(long)vir_reg);
+                return renameMap[tid].lookup(arch_reg,vir_reg);
         }
 
+        VirsRegIdPtr lookupCommit(ThreadID tid,const RegId& arch_reg){
+                return commitRenameMap[tid].lookup(arch_reg);
+        }
+
+        PhysRegIdPtr lookupCommit(ThreadID tid,const RegId& arch_reg,VirsRegIdPtr vir_reg){
+                return commitRenameMap[tid].lookup(arch_reg,vir_reg);
+        }
         /** Sets the commit PC state of a specific thread. */
     void pcState(const TheISA::PCState &newPCState, ThreadID tid);
 
@@ -734,7 +745,7 @@ class FullO3CPU : public BaseO3CPU
     /** The IEW stage's instruction queue. */
     TimeBuffer<IEWStruct> iewQueue;
 
-        PhysRegIdPtr getPhysReg(ThreadID tid, const RegId& arch_reg, VirsRegIdPtr vir_reg);
+        PhysRegIdPtr getPhysReg(DynInstPtr inst, const RegId& arch_reg, VirsRegIdPtr vir_reg, RegVal val);
 
   private:
     /** The activity recorder; used to tell if the CPU has any

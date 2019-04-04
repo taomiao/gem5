@@ -248,8 +248,8 @@ class BaseDynInst : public ExecContext, public RefCounted
     std::array<RegId, TheISA::MaxInstDestRegs> _flatDestRegIdx;
 
         //arch_regs
-        std::array<RegId ,TheISA::MaxInstDestRegs> _archDestRegIdx;
-        std::array<RegId ,TheISA::MaxInstSrcRegs> _archSrcRegIdx;
+//        std::array<RegId ,TheISA::MaxInstDestRegs> _archDestRegIdx;
+//        std::array<RegId ,TheISA::MaxInstSrcRegs> _archSrcRegIdx;
 
 //taomiao virtual dst regs,records physical regs
         std::array<VirsRegIdPtr,TheISA::MaxInstDestRegs> _virDestRegIdx;
@@ -419,10 +419,10 @@ class BaseDynInst : public ExecContext, public RefCounted
                        PhysRegIdPtr renamed_dest,
                        PhysRegIdPtr previous_rename)
     {
-                DPRINTF(O3CPU,"idx is %d, renamd_virdest is %d, renamed_dest should be NULL and is %d, previous_rename is %d\n",idx,(long)renamed_virdest,renamed_dest,(long)previous_rename);
+                DPRINTF(O3CPU,"idx is %d, renamd_virdest is %d, renamed_dest should be NULL and is %d, previous_rename is %d\n",idx, renamed_virdest->index(),renamed_dest, previous_rename->index());
 
                 _virDestRegIdx[idx] = renamed_virdest;
-                _physDestRegIdx[(long)renamed_virdest] = renamed_dest;
+                _physDestRegIdx[idx] = renamed_dest;
         _prevVirDestRegIdx[idx] = previous_rename;
     }
 
@@ -433,10 +433,10 @@ class BaseDynInst : public ExecContext, public RefCounted
     void renameSrcReg(int idx, VirsRegIdPtr renamed_virsrc, PhysRegIdPtr renamed_src )
     {
                 if (renamed_src == NULL){
-                        DPRINTF(O3CPU,"idx is %d, vir_src is %d, physical reg is not allocated yet\n",idx,(long)renamed_virsrc);
+                        DPRINTF(O3CPU,"idx is %d, vir_src is %d, physical reg is not allocated yet\n",idx, renamed_virsrc->index());
                 }
                 else{
-                        DPRINTF(O3CPU,"idx is %d , vir_renamed_src is %d, phys_renamed_src is %d\n",idx,(long)renamed_virsrc,renamed_src->index());
+                        DPRINTF(O3CPU,"idx is %d , vir_renamed_src is %d, phys_renamed_src is %d\n",idx, renamed_virsrc->index(), renamed_src->index());
         }
                 _virSrcRegIdx[idx] = renamed_virsrc;
                 _physSrcRegIdx[idx] = renamed_src;

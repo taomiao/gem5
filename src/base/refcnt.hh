@@ -93,7 +93,7 @@ class RefCounted
      * do.  We don't ever delete a "void *".
      */
     virtual ~RefCounted() {
-                printf("~RefCounted()\n");
+                //printf("~RefCounted()\n");
         }
 
     /// Increment the reference count

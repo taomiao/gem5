@@ -68,6 +68,7 @@ class SimpleFreeList
     /** The actual free list */
     std::queue<PhysRegIdPtr> freeRegs;
 
+	std::vector<int> physRegCntRef;
   public:
 
     SimpleFreeList() {};
@@ -75,6 +76,21 @@ class SimpleFreeList
     /** Add a physical register to the free list */
     void addReg(PhysRegIdPtr reg) { freeRegs.push(reg); }
 
+	int addPhysReg(PhysRegIdPtr reg) {
+		DPRINTF(FreeList,"simpleFreeList addPhysReg %d, cnt_ref_size is %d\n",reg->index(),physRegCntRef.size());
+		if(this->physRegCntRef[reg->index()] > 1){
+			//still refered , do not free it
+			this->physRegCntRef[reg->index()] = this->physRegCntRef[reg->index()] -1;
+		}
+		else if(this->physRegCntRef[reg->index()] == 1){
+			this->addReg(reg);
+			this->physRegCntRef[reg->index()] = 0;
+		}
+		else{
+			panic("ref_cnt should be >= 1");
+		}
+		return physRegCntRef[reg->index()];
+	}
     /** Add physical registers to the free list */
     template<class InputIt>
     void
@@ -82,6 +98,7 @@ class SimpleFreeList
         std::for_each(first, last,
             [this](const typename InputIt::value_type& reg) {
                 this->freeRegs.push(&reg);
+				this->physRegCntRef.push_back(0);
             });
     }
 
@@ -94,11 +111,39 @@ class SimpleFreeList
         return free_reg;
     }
 
+	PhysRegIdPtr getPhysReg(){
+		assert(!freeRegs.empty());
+        PhysRegIdPtr free_reg = freeRegs.front();
+		this->physRegCntRef[free_reg->index()] = 1;
+        freeRegs.pop();
+        return free_reg;
+	}
+
+	void addRegCntRef(PhysRegIdPtr reg){
+		if(this->physRegCntRef[reg->index()] == 0){
+			DPRINTF(FreeList,"addRegCntReg with reg_cnt_reg=0, get rid off it from freelist\n");
+			std::queue<PhysRegIdPtr> new_freeRegs;
+			while(!freeRegs.empty()){
+				PhysRegIdPtr itr = freeRegs.front();
+				freeRegs.pop();
+				if( itr != reg ){
+					new_freeRegs.push(itr);
+				}
+			}
+			freeRegs.swap(new_freeRegs);
+		}
+		this->physRegCntRef[reg->index()] = this->physRegCntRef[reg->index()] + 1;
+	}
+
     /** Return the number of free registers on the list. */
     unsigned numFreeRegs() const { return freeRegs.size(); }
 
     /** True iff there are free registers on the list. */
     bool hasFreeRegs() const { return !freeRegs.empty(); }
+
+	std::vector<int> getRCList(){
+		return physRegCntRef;
+	}
 };
 
 
@@ -167,13 +212,16 @@ class UnifiedFreeList
      *                           used by initial mappings.
      */
     UnifiedFreeList(const std::string &_my_name, PhysRegFile *_regFile);
-        UnifiedFreeList(const std::string &_my_name, int vir_int_reg,
-                                                                                                 int vir_float_reg,
-                                                                                                 int vir_vec_reg,
-                                                                                                 int vir_vecpred_reg,
-                                                                                                 int vir_cc_reg,
-                                                                                                 Enums::VecRegRenameMode vec_mode
-                                                                                                 );
+        UnifiedFreeList(const std::string &_my_name, 
+		                       int vir_int_reg,
+                               int vir_float_reg,
+                               int vir_vec_reg,
+                               int vir_vecpred_reg,
+                               int vir_cc_reg,
+                               Enums::VecRegRenameMode vec_mode);
+
+	
+	void addPhysRegCntRef(PhysRegIdPtr reg);
     /** Gives the name of the freelist. */
     std::string name() const { return _name; };
 
@@ -198,10 +246,37 @@ class UnifiedFreeList
     /** Gets a free cc register. */
     PhysRegIdPtr getCCReg() { return ccList.getReg(); }
 
+
+    /** Gets a free integer register. */
+    PhysRegIdPtr getPhysIntReg() { 
+		PhysRegIdPtr reg = intList.getReg(); 
+		intList.addRegCntRef(reg);
+		return reg;
+	}
+
+    /** Gets a free fp register. */
+    PhysRegIdPtr getPhysFloatReg() { 
+		PhysRegIdPtr reg = floatList.getReg();
+		floatList.addRegCntRef(reg);
+		return reg;
+	}
+
+    /** Gets a free vector register. */
+    PhysRegIdPtr getPhysVecReg() { return vecList.getReg(); }
+
+    /** Gets a free vector elemenet register. */
+    PhysRegIdPtr getPhysVecElem() { return vecElemList.getReg(); }
+
+    /** Gets a free predicate register. */
+    PhysRegIdPtr getPhysVecPredReg() { return predList.getReg(); }
+
+    /** Gets a free cc register. */
+    PhysRegIdPtr getPhysCCReg() { return ccList.getReg(); }
+
     /** Adds a register back to the free list. */
-    void addReg(PhysRegIdPtr freed_reg);
+    void addVirReg(const RegId& arch_reg, VirsRegIdPtr freed_reg);
         //this is for vir_freeList
-        void addReg(const RegId& arch_reg, VirsRegIdPtr freed_reg);
+        int addPhysReg(PhysRegIdPtr freed_reg);
 
     /** Adds a register back to the free list. */
     template<class InputIt>
@@ -262,6 +337,11 @@ class UnifiedFreeList
 
     /** Returns the number of free cc registers. */
     unsigned numFreeCCRegs() const { return ccList.numFreeRegs(); }
+
+	std::vector<int> getIntRCList(){
+		return intList.getRCList();
+	}
+
 };
 
 template<class InputIt>
@@ -304,42 +384,9 @@ UnifiedFreeList::addRegs(InputIt first, InputIt last)
 }
 
 inline void
-UnifiedFreeList::addReg(PhysRegIdPtr freed_reg)
+UnifiedFreeList::addVirReg(const RegId& arch_reg, VirsRegIdPtr freed_reg)
 {
     DPRINTF(FreeList,"Freeing register %i (%s).\n", freed_reg->index(),
-            freed_reg->className());
-    //Might want to add in a check for whether or not this register is
-    //already in there.  A bit vector or something similar would be useful.
-    switch (freed_reg->classValue()) {
-        case IntRegClass:
-            intList.addReg(freed_reg);
-            break;
-        case FloatRegClass:
-            floatList.addReg(freed_reg);
-            break;
-        case VecRegClass:
-            vecList.addReg(freed_reg);
-            break;
-        case VecElemClass:
-            vecElemList.addReg(freed_reg);
-            break;
-        case VecPredRegClass:
-            predList.addReg(freed_reg);
-            break;
-        case CCRegClass:
-            ccList.addReg(freed_reg);
-            break;
-        default:
-            panic("Unexpected RegClass (%s)",
-                        freed_reg->className());
-        }
-}
-
-
-inline void
-UnifiedFreeList::addReg(const RegId& arch_reg, VirsRegIdPtr freed_reg)
-{
-    DPRINTF(FreeList,"Freeing register %i (%s).\n", (long)freed_reg,
             arch_reg.className());
     //Might want to add in a check for whether or not this register is
     //already in there.  A bit vector or something similar would be useful.
@@ -366,6 +413,70 @@ UnifiedFreeList::addReg(const RegId& arch_reg, VirsRegIdPtr freed_reg)
             panic("Unexpected RegClass (%s)",
                         arch_reg.className());
         }
+}
+
+
+inline int
+UnifiedFreeList::addPhysReg(PhysRegIdPtr freed_reg)
+{
+    DPRINTF(FreeList,"Freeing register %i (%s).\n", freed_reg->index(),
+            freed_reg->className());
+    //Might want to add in a check for whether or not this register is
+    //already in there.  A bit vector or something similar would be useful.
+    switch (freed_reg->classValue()) {
+        case IntRegClass:
+            return intList.addPhysReg(freed_reg);
+            break;
+        case FloatRegClass:
+            return floatList.addPhysReg(freed_reg);
+            break;
+        case VecRegClass:
+            return vecList.addPhysReg(freed_reg);
+            break;
+        case VecElemClass:
+            return vecElemList.addPhysReg(freed_reg);
+            break;
+        case VecPredRegClass:
+            return predList.addPhysReg(freed_reg);
+            break;
+        case CCRegClass:
+            return ccList.addPhysReg(freed_reg);
+            break;
+        default:
+            panic("Unexpected RegClass (%s)",
+                        freed_reg->className());
+			break;
+        }
+	return 0;
+}
+
+inline void
+UnifiedFreeList::addPhysRegCntRef(PhysRegIdPtr reg){
+	assert(reg != NULL);
+	switch (reg->classValue()) {
+        case IntRegClass:
+            intList.addRegCntRef(reg);
+            break;
+        case FloatRegClass:
+            floatList.addRegCntRef(reg);
+            break;
+        case VecRegClass:
+            vecList.addRegCntRef(reg);
+            break;
+        case VecElemClass:
+            vecElemList.addRegCntRef(reg);
+            break;
+        case VecPredRegClass:
+            predList.addRegCntRef(reg);
+            break;
+        case CCRegClass:
+            ccList.addRegCntRef(reg);
+            break;
+        default:
+            panic("Unexpected RegClass (%s)",
+                    reg->className());
+        }
+	
 }
 
     // These assert conditions ensure that the number of free

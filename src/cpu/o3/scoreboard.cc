@@ -39,7 +39,6 @@ Scoreboard::Scoreboard(const std::string &_my_name,
                        unsigned _numPhysicalRegs)
     : _name(_my_name),
       regScoreBoard(_numPhysicalRegs, true),
-          ref_cnt(_numPhysicalRegs,0),
       numPhysRegs(_numPhysicalRegs)
 {
         DPRINTF(Scoreboard,"init scoreboard\n");

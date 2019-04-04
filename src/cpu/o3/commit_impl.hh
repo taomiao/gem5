@@ -1130,6 +1130,22 @@ DefaultCommit<Impl>::commitInsts()
                 if (!interrupt && avoidQuiesceLiveLock &&
                     onInstBoundary && cpu->checkInterrupts(cpu->tcBase(0)))
                     squashAfter(tid, head_inst);
+
+
+                                int dpr_cnt = 0;
+                                int dpr_idx = 0;
+                                int dpr_val = 0;
+                                if (head_inst->staticInst->numDestRegs() > 0){
+                                        dpr_cnt = head_inst->staticInst->numDestRegs();
+                                        PhysRegIdPtr dpr = head_inst->getPhysDestRegIdx(0);
+                                        if (dpr != NULL){
+                                                RegVal rval = cpu->readIntReg(dpr);
+                                                dpr_idx = dpr->index();
+                                                dpr_val = (int)rval;
+                                        }
+                                }
+                                DPRINTFR(O3PipeView,"O3PipeView:result:%llu:%d:%d:%d:%d\n",head_inst->instAddr(),head_inst->seqNum,dpr_cnt,dpr_idx,dpr_val);
+
             } else {
                 DPRINTF(Commit, "Unable to commit head instruction PC:%s "
                         "[tid:%i] [sn:%i].\n",
@@ -1302,6 +1318,9 @@ DefaultCommit<Impl>::commitHead(const DynInstPtr &head_inst, unsigned inst_num)
     for (int i = 0; i < head_inst->numDestRegs(); i++) {
         renameMap[tid]->setEntry(head_inst->flattenedDestRegIdx(i),
                                  head_inst->renamedVirDestRegIdx(i));
+                renameMap[tid]->setEntry(head_inst->flattenedDestRegIdx(i),
+                                                                 head_inst->renamedVirDestRegIdx(i),
+                                                                 head_inst->renamedDestRegIdx(i));
     }
 
     // Finally clear the head ROB entry.

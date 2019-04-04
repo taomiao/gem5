@@ -185,7 +185,7 @@ class PhysRegFile
     RegVal
     readIntReg(PhysRegIdPtr phys_reg) const
     {
-        assert(phys_reg->isIntPhysReg());
+        //assert(phys_reg->isIntPhysReg());
 
         DPRINTF(IEW, "RegFile: Access to int register %i, has data "
                 "%#x\n", phys_reg->index(), intRegFile[phys_reg->index()]);
@@ -392,6 +392,8 @@ class PhysRegFile
      * the pointer out of just class and register idx.
      */
     PhysRegIdPtr getTrueId(PhysRegIdPtr reg);
+
+	PhysRegIdPtr searchRegVal(RegClass cls, RegVal val);
 };
 
 

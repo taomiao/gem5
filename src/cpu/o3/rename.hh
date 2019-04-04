@@ -364,7 +364,7 @@ class DefaultRename
 
     /** Rename map interface. */
     RenameMap *renameMap[Impl::MaxThreads];
-        RenameMap *virRenameMap[Impl::MaxThreads];
+    //    RenameMap *virRenameMap[Impl::MaxThreads];
 
     /** Free list interface. */
     FreeList *freeList;

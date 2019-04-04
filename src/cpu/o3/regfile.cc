@@ -236,3 +236,26 @@ PhysRegFile::getTrueId(PhysRegIdPtr reg)
     return nullptr;
 }
 
+PhysRegIdPtr
+PhysRegFile::searchRegVal(RegClass cls, RegVal val){
+	switch (cls){
+		case IntRegClass:
+			for(int i=0;i<intRegFile.size();i++){
+				if(intRegFile[i] == val){
+					return &(intRegIds[i]);
+				}
+			}
+			break;
+		case FloatRegClass:
+			for(int i=0;i<floatRegFile.size();i++){
+				if(floatRegFile[i] == val){
+					return &(floatRegIds[i]);
+				}
+			}
+			break;
+		default:
+			panic("not int or float type");
+			break;
+	}
+	return NULL;
+}

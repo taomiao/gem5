@@ -1,0 +1,710 @@
+  79500: global: vreg:get:       1:      33:     222
+  82500: system.cpu.rename: vreg:ret:       1:     223
+ 138000: global: vreg:get:       3:      34:     222
+ 138000: global: vreg:get:      34:      35:     221
+ 138500: global: vreg:get:      10:      36:     220
+ 138500: global: vreg:get:      14:      37:     219
+ 138500: global: vreg:get:      15:      38:     218
+ 138500: global: vreg:get:      37:      39:     217
+ 138500: global: vreg:get:       6:      40:     216
+ 138500: global: vreg:get:      40:      41:     215
+ 139000: global: vreg:get:      36:      42:     214
+ 140500: system.cpu.rename: vreg:ret:      42:     215
+ 140500: system.cpu.rename: vreg:ret:      41:     216
+ 140500: system.cpu.rename: vreg:ret:      40:     217
+ 140500: system.cpu.rename: vreg:ret:      39:     218
+ 140500: system.cpu.rename: vreg:ret:      38:     219
+ 140500: system.cpu.rename: vreg:ret:      37:     220
+ 140500: system.cpu.rename: vreg:ret:      36:     221
+ 141500: system.cpu.rename: vreg:ret:       3:     222
+ 141500: system.cpu.rename: vreg:ret:      34:     223
+ 143000: global: vreg:get:      15:      43:     222
+ 144000: global: vreg:get:      10:      44:     221
+ 144000: global: vreg:get:      44:      45:     220
+ 144000: global: vreg:get:      11:      46:     219
+ 144000: global: vreg:get:      12:      47:     218
+ 144500: global: vreg:get:       2:      48:     217
+ 144500: global: vreg:get:      13:      49:     216
+ 145500: global: vreg:get:      49:      50:     215
+ 145500: global: vreg:get:      14:      51:     214
+ 145500: global: vreg:get:      51:      52:     213
+ 145500: global: vreg:get:      16:      53:     212
+ 146000: system.cpu.rename: vreg:ret:      15:     213
+ 147000: system.cpu.rename: vreg:ret:      10:     214
+ 147500: system.cpu.rename: vreg:ret:      44:     215
+ 212500: system.cpu.rename: vreg:ret:      11:     216
+ 212500: system.cpu.rename: vreg:ret:      12:     217
+ 212500: system.cpu.rename: vreg:ret:       2:     218
+ 212500: system.cpu.rename: vreg:ret:      13:     219
+ 212500: system.cpu.rename: vreg:ret:      49:     220
+ 212500: system.cpu.rename: vreg:ret:      14:     221
+ 212500: system.cpu.rename: vreg:ret:      51:     222
+ 212500: system.cpu.rename: vreg:ret:      16:     223
+ 216000: global: vreg:get:      48:      54:     222
+ 216500: global: vreg:get:      17:      55:     221
+ 219000: system.cpu.rename: vreg:ret:      48:     222
+ 219500: system.cpu.rename: vreg:ret:      17:     223
+ 275000: global: vreg:get:       6:      56:     222
+ 276500: global: vreg:get:      18:      57:     221
+ 277000: global: vreg:get:       8:      58:     220
+ 277500: global: vreg:get:       9:      59:     219
+ 278000: global: vreg:get:      43:      60:     218
+ 278000: system.cpu.rename: vreg:ret:       6:     219
+ 278500: global: vreg:get:      60:      61:     218
+ 278500: global: vreg:get:      61:      62:     217
+ 278500: global: vreg:get:      52:      63:     216
+ 279000: global: vreg:get:      45:      64:     215
+ 279000: global: vreg:get:      63:      65:     214
+ 279500: global: vreg:get:      64:      66:     213
+ 279500: system.cpu.rename: vreg:ret:      18:     214
+ 280000: global: vreg:get:      66:      67:     213
+ 280000: system.cpu.rename: vreg:ret:       8:     214
+ 280500: global: vreg:get:      62:      68:     213
+ 280500: global: vreg:get:      67:      69:     212
+ 280500: system.cpu.rename: vreg:ret:       9:     213
+ 281000: system.cpu.rename: vreg:ret:      69:     214
+ 281000: system.cpu.rename: vreg:ret:      68:     215
+ 281000: system.cpu.rename: vreg:ret:      67:     216
+ 281000: system.cpu.rename: vreg:ret:      66:     217
+ 281000: system.cpu.rename: vreg:ret:      65:     218
+ 281000: system.cpu.rename: vreg:ret:      64:     219
+ 281000: system.cpu.rename: vreg:ret:      63:     220
+ 281000: system.cpu.rename: vreg:ret:      62:     221
+ 281000: system.cpu.rename: vreg:ret:      61:     222
+ 281500: system.cpu.rename: vreg:ret:      43:     223
+ 283500: global: vreg:get:      52:      70:     222
+ 284000: global: vreg:get:      45:      71:     221
+ 284000: global: vreg:get:      70:      72:     220
+ 284500: global: vreg:get:      71:      73:     219
+ 285000: global: vreg:get:      73:      74:     218
+ 285500: global: vreg:get:      60:      75:     217
+ 285500: global: vreg:get:      74:      76:     216
+ 286000: global: vreg:get:      75:      77:     215
+ 342000: system.cpu.rename: vreg:ret:      52:     216
+ 342500: system.cpu.rename: vreg:ret:      45:     217
+ 342500: system.cpu.rename: vreg:ret:      70:     218
+ 343000: global: vreg:get:      33:      78:     217
+ 343000: system.cpu.rename: vreg:ret:      71:     218
+ 343500: system.cpu.rename: vreg:ret:      73:     219
+ 344000: system.cpu.rename: vreg:ret:      60:     220
+ 344000: system.cpu.rename: vreg:ret:      74:     221
+ 345500: system.cpu.rename: vreg:ret:      75:     222
+ 346000: system.cpu.rename: vreg:ret:      33:     223
+ 410000: global: vreg:get:      77:      79:     222
+ 410500: global: vreg:get:      72:      80:     221
+ 468000: global: vreg:get:      30:      81:     220
+ 468000: global: vreg:get:      80:      82:     219
+ 468000: global: vreg:get:      54:      83:     218
+ 469000: global: vreg:get:      82:      84:     217
+ 469000: global: vreg:get:      46:      85:     216
+ 469000: global: vreg:get:      85:      86:     215
+ 469500: global: vreg:get:      84:      87:     214
+ 470000: global: vreg:get:      28:      88:     213
+ 470000: global: vreg:get:      56:      89:     212
+ 470500: global: vreg:get:      87:      90:     211
+ 471000: global: vreg:get:      90:      91:     210
+ 471500: global: vreg:get:      58:      92:     209
+ 476500: system.cpu.rename: vreg:ret:      77:     210
+ 476500: system.cpu.rename: vreg:ret:      72:     211
+ 477000: system.cpu.rename: vreg:ret:      30:     212
+ 542500: system.cpu.rename: vreg:ret:      80:     213
+ 542500: system.cpu.rename: vreg:ret:      54:     214
+ 543000: system.cpu.rename: vreg:ret:      82:     215
+ 543000: system.cpu.rename: vreg:ret:      46:     216
+ 543000: system.cpu.rename: vreg:ret:      85:     217
+ 543000: system.cpu.rename: vreg:ret:      84:     218
+ 543000: system.cpu.rename: vreg:ret:      28:     219
+ 543000: system.cpu.rename: vreg:ret:      56:     220
+ 543500: system.cpu.rename: vreg:ret:      87:     221
+ 549000: global: vreg:get:      91:      93:     220
+ 550000: global: vreg:get:      93:      94:     219
+ 551500: global: vreg:get:      94:      95:     218
+ 552000: global: vreg:get:      59:      96:     217
+ 552500: global: vreg:get:      95:      97:     216
+ 552500: global: vreg:get:      19:      98:     215
+ 552500: global: vreg:get:      57:      99:     214
+ 553000: global: vreg:get:      97:     100:     213
+ 556500: global: vreg:get:      26:     101:     212
+ 557500: system.cpu.rename: vreg:ret:      90:     213
+ 557500: system.cpu.rename: vreg:ret:      58:     214
+ 558500: system.cpu.rename: vreg:ret:      91:     215
+ 559000: system.cpu.rename: vreg:ret:      93:     216
+ 566500: system.cpu.rename: vreg:ret:      94:     217
+ 566500: system.cpu.rename: vreg:ret:      59:     218
+ 615000: global: vreg:get:      22:     102:     217
+ 615000: global: vreg:get:      21:     103:     216
+ 615500: global: vreg:get:      24:     104:     215
+ 615500: global: vreg:get:      23:     105:     214
+ 619500: global: vreg:get:      25:     106:     213
+ 620000: global: vreg:get:      27:     107:     212
+ 620500: global: vreg:get:      29:     108:     211
+ 621000: global: vreg:get:      55:     109:     210
+ 621500: global: vreg:get:      53:     110:     209
+ 622000: global: vreg:get:      47:     111:     208
+ 622500: global: vreg:get:      50:     112:     207
+ 622500: system.cpu.rename: vreg:ret:      95:     208
+ 622500: system.cpu.rename: vreg:ret:      19:     209
+ 622500: system.cpu.rename: vreg:ret:      57:     210
+ 623000: global: vreg:get:     100:     113:     209
+ 623000: global: vreg:get:      79:     114:     208
+ 623000: system.cpu.rename: vreg:ret:      97:     209
+ 623500: global: vreg:get:     114:     115:     208
+ 623500: system.cpu.rename: vreg:ret:      26:     209
+ 623500: system.cpu.rename: vreg:ret:      22:     210
+ 623500: system.cpu.rename: vreg:ret:      21:     211
+ 623500: system.cpu.rename: vreg:ret:      24:     212
+ 623500: system.cpu.rename: vreg:ret:      23:     213
+ 624000: global: vreg:get:     115:     116:     212
+ 624000: system.cpu.rename: vreg:ret:      25:     213
+ 624000: system.cpu.rename: vreg:ret:      27:     214
+ 624000: system.cpu.rename: vreg:ret:      29:     215
+ 624500: global: vreg:get:     116:     117:     214
+ 624500: system.cpu.rename: vreg:ret:      55:     215
+ 624500: system.cpu.rename: vreg:ret:      53:     216
+ 625000: system.cpu.rename: vreg:ret:      47:     217
+ 625500: global: vreg:get:     117:     118:     216
+ 625500: system.cpu.rename: vreg:ret:      50:     217
+ 626000: system.cpu.rename: vreg:ret:     100:     218
+ 626000: system.cpu.rename: vreg:ret:      79:     219
+ 626500: system.cpu.rename: vreg:ret:     114:     220
+ 627000: system.cpu.rename: vreg:ret:     115:     221
+ 684000: global: vreg:get:     108:     119:     220
+ 684500: global: vreg:get:      76:     120:     219
+ 685000: global: vreg:get:     118:     121:     218
+ 686500: global: vreg:get:     121:     122:     217
+ 687000: global: vreg:get:     122:     123:     216
+ 688000: global: vreg:get:     123:     124:     215
+ 688500: system.cpu.rename: vreg:ret:     124:     216
+ 688500: system.cpu.rename: vreg:ret:     123:     217
+ 688500: system.cpu.rename: vreg:ret:     122:     218
+ 691500: global: vreg:get:     121:     125:     217
+ 692500: global: vreg:get:     125:     126:     216
+ 692500: global: vreg:get:     126:     127:     215
+ 693000: global: vreg:get:     127:     128:     214
+ 694000: global: vreg:get:     128:     129:     213
+ 696000: global: vreg:get:     119:     130:     212
+ 696500: global: vreg:get:     120:     131:     211
+ 697000: global: vreg:get:     129:     132:     210
+ 698500: global: vreg:get:     132:     133:     209
+ 699000: global: vreg:get:     133:     134:     208
+ 700000: global: vreg:get:     134:     135:     207
+ 700500: system.cpu.rename: vreg:ret:     135:     208
+ 700500: system.cpu.rename: vreg:ret:     134:     209
+ 700500: system.cpu.rename: vreg:ret:     133:     210
+ 703500: global: vreg:get:     132:     136:     209
+ 704500: global: vreg:get:     136:     137:     208
+ 704500: global: vreg:get:     137:     138:     207
+ 705000: global: vreg:get:     138:     139:     206
+ 706000: global: vreg:get:     139:     140:     205
+ 708000: global: vreg:get:     130:     141:     204
+ 708500: global: vreg:get:     131:     142:     203
+ 709000: global: vreg:get:     140:     143:     202
+ 710500: global: vreg:get:     143:     144:     201
+ 711000: global: vreg:get:     144:     145:     200
+ 712000: global: vreg:get:     145:     146:     199
+ 712500: system.cpu.rename: vreg:ret:     146:     200
+ 712500: system.cpu.rename: vreg:ret:     145:     201
+ 712500: system.cpu.rename: vreg:ret:     144:     202
+ 714000: system.cpu.rename: vreg:ret:     143:     203
+ 714000: system.cpu.rename: vreg:ret:     142:     204
+ 714000: system.cpu.rename: vreg:ret:     141:     205
+ 714000: system.cpu.rename: vreg:ret:     140:     206
+ 714000: system.cpu.rename: vreg:ret:     139:     207
+ 714000: system.cpu.rename: vreg:ret:     138:     208
+ 714000: system.cpu.rename: vreg:ret:     137:     209
+ 714000: system.cpu.rename: vreg:ret:     136:     210
+ 714000: system.cpu.rename: vreg:ret:     132:     211
+ 714000: system.cpu.rename: vreg:ret:     131:     212
+ 714000: system.cpu.rename: vreg:ret:     130:     213
+ 714000: system.cpu.rename: vreg:ret:     129:     214
+ 714000: system.cpu.rename: vreg:ret:     128:     215
+ 714000: system.cpu.rename: vreg:ret:     127:     216
+ 714000: system.cpu.rename: vreg:ret:     126:     217
+ 714000: system.cpu.rename: vreg:ret:     125:     218
+ 714000: system.cpu.rename: vreg:ret:     121:     219
+ 714000: system.cpu.rename: vreg:ret:     120:     220
+ 714000: system.cpu.rename: vreg:ret:     119:     221
+ 714000: system.cpu.rename: vreg:ret:     118:     222
+ 718500: system.cpu.rename: vreg:ret:     116:     223
+ 720000: global: vreg:get:      76:     147:     222
+ 721000: global: vreg:get:     117:     148:     221
+ 721500: global: vreg:get:     148:     149:     220
+ 721500: global: vreg:get:     149:     150:     219
+ 721500: global: vreg:get:     150:     151:     218
+ 722000: global: vreg:get:     151:     152:     217
+ 722000: global: vreg:get:     152:     153:     216
+ 723000: system.cpu.rename: vreg:ret:      76:     217
+ 723500: system.cpu.rename: vreg:ret:     153:     218
+ 723500: system.cpu.rename: vreg:ret:     152:     219
+ 723500: system.cpu.rename: vreg:ret:     151:     220
+ 723500: system.cpu.rename: vreg:ret:     150:     221
+ 723500: system.cpu.rename: vreg:ret:     149:     222
+ 726500: system.cpu.rename: vreg:ret:     117:     223
+ 728000: global: vreg:get:     148:     154:     222
+ 729000: global: vreg:get:     154:     155:     221
+ 729000: global: vreg:get:     155:     156:     220
+ 729000: global: vreg:get:     156:     157:     219
+ 730000: global: vreg:get:     157:     158:     218
+ 731000: system.cpu.rename: vreg:ret:     148:     219
+ 732000: global: vreg:get:     108:     159:     218
+ 732000: system.cpu.rename: vreg:ret:     154:     219
+ 732500: global: vreg:get:     147:     160:     218
+ 732500: system.cpu.rename: vreg:ret:     155:     219
+ 733000: global: vreg:get:     158:     161:     218
+ 734000: system.cpu.rename: vreg:ret:     161:     219
+ 734000: system.cpu.rename: vreg:ret:     160:     220
+ 734000: system.cpu.rename: vreg:ret:     159:     221
+ 734000: system.cpu.rename: vreg:ret:     158:     222
+ 734500: system.cpu.rename: vreg:ret:     156:     223
+ 787000: global: vreg:get:     102:     162:     222
+ 787000: global: vreg:get:     147:     163:     221
+ 787500: global: vreg:get:     105:     164:     220
+ 788000: global: vreg:get:     157:     165:     219
+ 791000: system.cpu.rename: vreg:ret:     102:     220
+ 791000: system.cpu.rename: vreg:ret:     147:     221
+ 791000: system.cpu.rename: vreg:ret:     105:     222
+ 792000: system.cpu.rename: vreg:ret:     157:     223
+ 846500: global: vreg:get:     104:     166:     222
+ 846500: global: vreg:get:     163:     167:     221
+ 847000: global: vreg:get:     106:     168:     220
+ 847500: global: vreg:get:     165:     169:     219
+ 848500: system.cpu.rename: vreg:ret:     169:     220
+ 848500: system.cpu.rename: vreg:ret:     168:     221
+ 848500: system.cpu.rename: vreg:ret:     167:     222
+ 848500: system.cpu.rename: vreg:ret:     166:     223
+ 851000: global: vreg:get:     165:     170:     222
+ 851500: global: vreg:get:     170:     171:     221
+ 852000: global: vreg:get:     171:     172:     220
+ 852500: global: vreg:get:     172:     173:     219
+ 853500: global: vreg:get:     173:     174:     218
+ 854000: system.cpu.rename: vreg:ret:     165:     219
+ 854500: system.cpu.rename: vreg:ret:     170:     220
+ 855000: system.cpu.rename: vreg:ret:     171:     221
+ 855500: global: vreg:get:     108:     175:     220
+ 856000: global: vreg:get:     163:     176:     219
+ 856500: system.cpu.rename: vreg:ret:     176:     220
+ 856500: system.cpu.rename: vreg:ret:     175:     221
+ 856500: system.cpu.rename: vreg:ret:     174:     222
+ 857000: system.cpu.rename: vreg:ret:     172:     223
+ 858000: global: vreg:get:     163:     177:     222
+ 858500: global: vreg:get:     173:     178:     221
+ 860000: global: vreg:get:     178:     179:     220
+ 860500: global: vreg:get:     179:     180:     219
+ 861000: system.cpu.rename: vreg:ret:     163:     220
+ 861500: global: vreg:get:     180:     181:     219
+ 862000: system.cpu.rename: vreg:ret:     181:     220
+ 862000: system.cpu.rename: vreg:ret:     180:     221
+ 862000: system.cpu.rename: vreg:ret:     179:     222
+ 863500: system.cpu.rename: vreg:ret:     173:     223
+ 865000: global: vreg:get:     178:     182:     222
+ 866000: global: vreg:get:     182:     183:     221
+ 866000: global: vreg:get:     183:     184:     220
+ 866500: global: vreg:get:     184:     185:     219
+ 867500: global: vreg:get:     185:     186:     218
+ 868000: system.cpu.rename: vreg:ret:     178:     219
+ 869000: system.cpu.rename: vreg:ret:     182:     220
+ 869500: global: vreg:get:     108:     187:     219
+ 869500: system.cpu.rename: vreg:ret:     183:     220
+ 870000: global: vreg:get:     177:     188:     219
+ 870500: global: vreg:get:     186:     189:     218
+ 871000: system.cpu.rename: vreg:ret:     189:     219
+ 871000: system.cpu.rename: vreg:ret:     188:     220
+ 871000: system.cpu.rename: vreg:ret:     187:     221
+ 871000: system.cpu.rename: vreg:ret:     186:     222
+ 871500: system.cpu.rename: vreg:ret:     184:     223
+ 873500: global: vreg:get:     104:     190:     222
+ 873500: global: vreg:get:     177:     191:     221
+ 874000: global: vreg:get:     106:     192:     220
+ 874500: global: vreg:get:     185:     193:     219
+ 876000: global: vreg:get:     193:     194:     218
+ 876500: global: vreg:get:     194:     195:     217
+ 876500: global: vreg:get:     195:     196:     216
+ 877500: system.cpu.rename: vreg:ret:     196:     217
+ 877500: system.cpu.rename: vreg:ret:     195:     218
+ 877500: system.cpu.rename: vreg:ret:     194:     219
+ 878000: system.cpu.rename: vreg:ret:     104:     220
+ 878000: system.cpu.rename: vreg:ret:     177:     221
+ 878000: system.cpu.rename: vreg:ret:     106:     222
+ 880500: global: vreg:get:     193:     197:     221
+ 881000: global: vreg:get:     197:     198:     220
+ 882000: global: vreg:get:     198:     199:     219
+ 882500: system.cpu.rename: vreg:ret:     199:     220
+ 882500: system.cpu.rename: vreg:ret:     198:     221
+ 882500: system.cpu.rename: vreg:ret:     197:     222
+ 884000: global: vreg:get:     193:     200:     221
+ 885000: global: vreg:get:     200:     201:     220
+ 886500: system.cpu.rename: vreg:ret:     201:     221
+ 886500: system.cpu.rename: vreg:ret:     200:     222
+ 888000: global: vreg:get:     193:     202:     221
+ 889000: global: vreg:get:     202:     203:     220
+ 889500: global: vreg:get:     203:     204:     219
+ 890500: global: vreg:get:     204:     205:     218
+ 892000: system.cpu.rename: vreg:ret:     205:     219
+ 892000: system.cpu.rename: vreg:ret:     204:     220
+ 892000: system.cpu.rename: vreg:ret:     203:     221
+ 894500: global: vreg:get:     202:     206:     220
+ 895500: global: vreg:get:     206:     207:     219
+ 897000: global: vreg:get:     207:     208:     218
+ 898000: global: vreg:get:     208:     209:     217
+ 898500: system.cpu.rename: vreg:ret:     209:     218
+ 898500: system.cpu.rename: vreg:ret:     208:     219
+ 898500: system.cpu.rename: vreg:ret:     207:     220
+ 900000: global: vreg:get:     206:     210:     219
+ 901000: global: vreg:get:     210:     211:     218
+ 901500: global: vreg:get:     211:     212:     217
+ 902500: global: vreg:get:     212:     213:     216
+ 903000: global: vreg:get:     213:     214:     215
+ 904000: system.cpu.rename: vreg:ret:     214:     216
+ 904000: system.cpu.rename: vreg:ret:     213:     217
+ 904000: system.cpu.rename: vreg:ret:     212:     218
+ 904000: system.cpu.rename: vreg:ret:     211:     219
+ 905500: global: vreg:get:     210:     215:     218
+ 906500: global: vreg:get:     215:     216:     217
+ 907000: global: vreg:get:     216:     217:     216
+ 908000: global: vreg:get:     217:     218:     215
+ 908500: global: vreg:get:     218:     219:     214
+ 909500: system.cpu.rename: vreg:ret:     219:     215
+ 909500: system.cpu.rename: vreg:ret:     218:     216
+ 909500: system.cpu.rename: vreg:ret:     217:     217
+ 909500: system.cpu.rename: vreg:ret:     216:     218
+ 911000: global: vreg:get:     215:     220:     217
+ 912000: global: vreg:get:     220:     221:     216
+ 912500: global: vreg:get:     221:     222:     215
+ 913500: global: vreg:get:     222:     223:     214
+ 914000: global: vreg:get:     223:     224:     213
+ 915000: system.cpu.rename: vreg:ret:     224:     214
+ 915000: system.cpu.rename: vreg:ret:     223:     215
+ 915000: system.cpu.rename: vreg:ret:     222:     216
+ 915000: system.cpu.rename: vreg:ret:     221:     217
+ 916500: global: vreg:get:     220:     225:     216
+ 917500: global: vreg:get:     225:     226:     215
+ 918000: global: vreg:get:     226:     227:     214
+ 919000: global: vreg:get:     227:     228:     213
+ 920000: global: vreg:get:     228:     229:     212
+ 920500: system.cpu.rename: vreg:ret:     229:     213
+ 920500: system.cpu.rename: vreg:ret:     228:     214
+ 920500: system.cpu.rename: vreg:ret:     227:     215
+ 920500: system.cpu.rename: vreg:ret:     226:     216
+ 922000: global: vreg:get:     225:     230:     215
+ 923000: global: vreg:get:     230:     231:     214
+ 924000: global: vreg:get:     231:     232:     213
+ 924500: global: vreg:get:      92:     233:     212
+ 925000: global: vreg:get:      96:     234:     211
+ 925500: global: vreg:get:      99:     235:     210
+ 926000: system.cpu.rename: vreg:ret:     235:     211
+ 926000: system.cpu.rename: vreg:ret:     234:     212
+ 926000: system.cpu.rename: vreg:ret:     233:     213
+ 926000: system.cpu.rename: vreg:ret:     232:     214
+ 926000: system.cpu.rename: vreg:ret:     231:     215
+ 928500: global: vreg:get:     230:     236:     214
+ 929000: global: vreg:get:      92:     237:     213
+ 929500: global: vreg:get:      96:     238:     212
+ 930000: global: vreg:get:      99:     239:     211
+ 930500: global: vreg:get:      98:     240:     210
+ 934500: system.cpu.rename: vreg:ret:     240:     211
+ 934500: system.cpu.rename: vreg:ret:     239:     212
+ 934500: system.cpu.rename: vreg:ret:     238:     213
+ 934500: system.cpu.rename: vreg:ret:     237:     214
+ 934500: system.cpu.rename: vreg:ret:     236:     215
+ 934500: system.cpu.rename: vreg:ret:     230:     216
+ 934500: system.cpu.rename: vreg:ret:     225:     217
+ 934500: system.cpu.rename: vreg:ret:     220:     218
+ 934500: system.cpu.rename: vreg:ret:     215:     219
+ 934500: system.cpu.rename: vreg:ret:     210:     220
+ 934500: system.cpu.rename: vreg:ret:     206:     221
+ 934500: system.cpu.rename: vreg:ret:     202:     222
+ 939500: system.cpu.rename: vreg:ret:     185:     223
+ 941000: global: vreg:get:     193:     241:     222
+ 942000: global: vreg:get:     241:     242:     221
+ 942000: global: vreg:get:     242:     243:     220
+ 942000: global: vreg:get:     243:     244:     219
+ 942000: global: vreg:get:     244:     245:     218
+ 942500: global: vreg:get:     108:     246:     217
+ 942500: global: vreg:get:     191:     247:     216
+ 942500: global: vreg:get:     245:     248:     215
+ 944000: global: vreg:get:     248:     249:     214
+ 944000: system.cpu.rename: vreg:ret:     193:     215
+ 944500: global: vreg:get:     249:     250:     214
+ 945000: system.cpu.rename: vreg:ret:     241:     215
+ 945500: global: vreg:get:     250:     251:     214
+ 945500: system.cpu.rename: vreg:ret:     242:     215
+ 946000: system.cpu.rename: vreg:ret:     251:     216
+ 946000: system.cpu.rename: vreg:ret:     250:     217
+ 946000: system.cpu.rename: vreg:ret:     249:     218
+ 947000: system.cpu.rename: vreg:ret:     243:     219
+ 948500: system.cpu.rename: vreg:ret:     244:     220
+ 948500: system.cpu.rename: vreg:ret:     108:     221
+ 948500: system.cpu.rename: vreg:ret:     191:     222
+ 948500: system.cpu.rename: vreg:ret:     245:     223
+ 950000: global: vreg:get:     248:     252:     222
+ 951000: global: vreg:get:     252:     253:     221
+ 951000: global: vreg:get:     253:     254:     220
+ 951500: global: vreg:get:     254:     255:     219
+ 952500: global: vreg:get:     255:       1:     218
+ 953000: system.cpu.rename: vreg:ret:     248:     219
+ 954000: system.cpu.rename: vreg:ret:     252:     220
+ 954500: global: vreg:get:     246:      42:     219
+ 954500: system.cpu.rename: vreg:ret:     253:     220
+ 955000: global: vreg:get:     247:      41:     219
+ 955500: global: vreg:get:       1:      40:     218
+ 956500: system.cpu.rename: vreg:ret:      40:     219
+ 956500: system.cpu.rename: vreg:ret:      41:     220
+ 956500: system.cpu.rename: vreg:ret:      42:     221
+ 958000: global: vreg:get:     247:      39:     220
+ 958500: global: vreg:get:       1:      38:     219
+ 960000: global: vreg:get:      38:      37:     218
+ 960500: global: vreg:get:      37:      36:     217
+ 961500: global: vreg:get:      36:       3:     216
+ 962000: system.cpu.rename: vreg:ret:       3:     217
+ 962000: system.cpu.rename: vreg:ret:      36:     218
+ 962000: system.cpu.rename: vreg:ret:      37:     219
+ 965000: global: vreg:get:      38:      34:     218
+ 966000: global: vreg:get:      34:      15:     217
+ 966000: global: vreg:get:      15:      10:     216
+ 966500: global: vreg:get:      10:      44:     215
+ 967500: global: vreg:get:      44:      11:     214
+ 969500: global: vreg:get:     246:      12:     213
+ 970000: global: vreg:get:      39:       2:     212
+ 970500: global: vreg:get:      11:      13:     211
+ 972000: global: vreg:get:      13:      49:     210
+ 972500: global: vreg:get:      49:      14:     209
+ 973500: global: vreg:get:      14:      51:     208
+ 974000: system.cpu.rename: vreg:ret:      51:     209
+ 974000: system.cpu.rename: vreg:ret:      14:     210
+ 974000: system.cpu.rename: vreg:ret:      49:     211
+ 976500: global: vreg:get:      13:      16:     210
+ 977500: global: vreg:get:      83:      48:     209
+ 980000: system.cpu.rename: vreg:ret:      48:     210
+ 982500: global: vreg:get:      16:      17:     209
+ 983000: global: vreg:get:      17:       6:     208
+ 984000: global: vreg:get:       6:      18:     207
+ 984500: global: vreg:get:      18:       8:     206
+ 985000: system.cpu.rename: vreg:ret:       8:     207
+ 985000: system.cpu.rename: vreg:ret:      18:     208
+ 985000: system.cpu.rename: vreg:ret:       6:     209
+ 985000: system.cpu.rename: vreg:ret:      17:     210
+ 986500: global: vreg:get:      16:       9:     209
+ 987500: global: vreg:get:       9:      69:     208
+ 989000: system.cpu.rename: vreg:ret:      69:     209
+ 989000: system.cpu.rename: vreg:ret:       9:     210
+ 990500: global: vreg:get:      16:      68:     209
+ 991500: global: vreg:get:      68:      67:     208
+ 992000: global: vreg:get:      67:      66:     207
+ 993000: global: vreg:get:      66:      65:     206
+ 994500: system.cpu.rename: vreg:ret:      65:     207
+ 994500: system.cpu.rename: vreg:ret:      66:     208
+ 994500: system.cpu.rename: vreg:ret:      67:     209
+ 997000: global: vreg:get:      68:      64:     208
+ 998000: global: vreg:get:      64:      63:     207
+ 999500: global: vreg:get:      63:      62:     206
+1000500: global: vreg:get:      62:      61:     205
+1001000: system.cpu.rename: vreg:ret:      61:     206
+1001000: system.cpu.rename: vreg:ret:      62:     207
+1001000: system.cpu.rename: vreg:ret:      63:     208
+1002500: global: vreg:get:      64:      43:     207
+1003500: global: vreg:get:      43:      52:     206
+1004000: global: vreg:get:      52:      45:     205
+1005000: global: vreg:get:      45:      70:     204
+1005500: global: vreg:get:      70:      71:     203
+1006500: system.cpu.rename: vreg:ret:      71:     204
+1006500: system.cpu.rename: vreg:ret:      70:     205
+1006500: system.cpu.rename: vreg:ret:      45:     206
+1006500: system.cpu.rename: vreg:ret:      52:     207
+1008000: global: vreg:get:      43:      73:     206
+1009000: global: vreg:get:      73:      60:     205
+1009500: global: vreg:get:      60:      74:     204
+1010500: global: vreg:get:      74:      75:     203
+1011000: global: vreg:get:      75:      33:     202
+1012000: system.cpu.rename: vreg:ret:      33:     203
+1012000: system.cpu.rename: vreg:ret:      75:     204
+1012000: system.cpu.rename: vreg:ret:      74:     205
+1012000: system.cpu.rename: vreg:ret:      60:     206
+1012500: system.cpu.rename: vreg:ret:      73:     207
+1012500: system.cpu.rename: vreg:ret:      43:     208
+1012500: system.cpu.rename: vreg:ret:      64:     209
+1012500: system.cpu.rename: vreg:ret:      68:     210
+1012500: system.cpu.rename: vreg:ret:      16:     211
+1012500: system.cpu.rename: vreg:ret:      13:     212
+1012500: system.cpu.rename: vreg:ret:       2:     213
+1012500: system.cpu.rename: vreg:ret:      12:     214
+1012500: system.cpu.rename: vreg:ret:      11:     215
+1012500: system.cpu.rename: vreg:ret:      44:     216
+1012500: system.cpu.rename: vreg:ret:      10:     217
+1012500: system.cpu.rename: vreg:ret:      15:     218
+1012500: system.cpu.rename: vreg:ret:      34:     219
+1012500: system.cpu.rename: vreg:ret:      38:     220
+1012500: system.cpu.rename: vreg:ret:      39:     221
+1012500: system.cpu.rename: vreg:ret:       1:     222
+1018500: system.cpu.rename: vreg:ret:     254:     223
+1071000: global: vreg:get:     255:      77:     222
+1071500: global: vreg:get:     247:      72:     221
+1072000: global: vreg:get:     111:      30:     220
+1073000: global: vreg:get:      77:      80:     219
+1075000: global: vreg:get:      80:      54:     218
+1075000: system.cpu.rename: vreg:ret:     255:     219
+1075000: system.cpu.rename: vreg:ret:     247:     220
+1075000: system.cpu.rename: vreg:ret:     111:     221
+1076000: system.cpu.rename: vreg:ret:      77:     222
+1076500: global: vreg:get:      54:      82:     221
+1077000: global: vreg:get:      72:      46:     220
+1078000: global: vreg:get:      82:      85:     219
+1078500: system.cpu.rename: vreg:ret:      85:     220
+1078500: system.cpu.rename: vreg:ret:      46:     221
+1078500: system.cpu.rename: vreg:ret:      82:     222
+1079500: system.cpu.rename: vreg:ret:      80:     223
+1081500: global: vreg:get:      54:      84:     222
+1082000: global: vreg:get:      84:      28:     221
+1082500: global: vreg:get:      28:      56:     220
+1083000: global: vreg:get:      56:      87:     219
+1084000: global: vreg:get:      87:      90:     218
+1084500: system.cpu.rename: vreg:ret:      54:     219
+1085000: system.cpu.rename: vreg:ret:      84:     220
+1085500: system.cpu.rename: vreg:ret:      28:     221
+1086000: global: vreg:get:     246:      58:     220
+1086500: global: vreg:get:      72:      91:     219
+1087000: system.cpu.rename: vreg:ret:      91:     220
+1087000: system.cpu.rename: vreg:ret:      58:     221
+1087000: system.cpu.rename: vreg:ret:      90:     222
+1087500: system.cpu.rename: vreg:ret:      56:     223
+1089500: global: vreg:get:      87:      93:     222
+1090000: global: vreg:get:      72:      94:     221
+1091000: global: vreg:get:      93:      59:     220
+1092000: global: vreg:get:      59:      95:     219
+1093500: system.cpu.rename: vreg:ret:      87:     220
+1093500: system.cpu.rename: vreg:ret:      72:     221
+1094000: global: vreg:get:      95:      19:     220
+1094000: system.cpu.rename: vreg:ret:      93:     221
+1094500: global: vreg:get:      94:      57:     220
+1095000: global: vreg:get:      30:      97:     219
+1096000: system.cpu.rename: vreg:ret:      97:     220
+1096000: system.cpu.rename: vreg:ret:      57:     221
+1096000: system.cpu.rename: vreg:ret:      19:     222
+1096500: system.cpu.rename: vreg:ret:      59:     223
+1099000: global: vreg:get:      95:      26:     222
+1099500: global: vreg:get:      26:      22:     221
+1100500: global: vreg:get:      22:      21:     220
+1101000: system.cpu.rename: vreg:ret:      21:     221
+1101000: system.cpu.rename: vreg:ret:      22:     222
+1101000: system.cpu.rename: vreg:ret:      26:     223
+1103500: global: vreg:get:      95:      24:     222
+1104500: global: vreg:get:      83:      23:     221
+1107000: system.cpu.rename: vreg:ret:      23:     222
+1107500: system.cpu.rename: vreg:ret:      95:     223
+1109500: global: vreg:get:      24:      25:     222
+1110000: global: vreg:get:      25:      27:     221
+1111000: global: vreg:get:      27:      29:     220
+1111500: global: vreg:get:      29:      55:     219
+1112000: system.cpu.rename: vreg:ret:      55:     220
+1112000: system.cpu.rename: vreg:ret:      29:     221
+1112000: system.cpu.rename: vreg:ret:      27:     222
+1112000: system.cpu.rename: vreg:ret:      25:     223
+1113500: global: vreg:get:      24:      53:     222
+1114500: global: vreg:get:      53:      47:     221
+1116000: system.cpu.rename: vreg:ret:      47:     222
+1116000: system.cpu.rename: vreg:ret:      53:     223
+1118500: global: vreg:get:      24:      50:     222
+1119500: global: vreg:get:      50:     100:     221
+1120000: global: vreg:get:     100:      79:     220
+1121000: global: vreg:get:      79:     114:     219
+1122500: system.cpu.rename: vreg:ret:     114:     220
+1122500: system.cpu.rename: vreg:ret:      79:     221
+1122500: system.cpu.rename: vreg:ret:     100:     222
+1123000: system.cpu.rename: vreg:ret:      24:     223
+1125000: global: vreg:get:      50:     115:     222
+1126500: global: vreg:get:     115:     124:     221
+1127500: global: vreg:get:     124:     123:     220
+1128500: global: vreg:get:     123:     122:     219
+1129000: system.cpu.rename: vreg:ret:      50:     220
+1129500: global: vreg:get:     122:     135:     219
+1130500: global: vreg:get:     135:     134:     218
+1130500: system.cpu.rename: vreg:ret:     115:     219
+1131500: global: vreg:get:     134:     133:     218
+1131500: system.cpu.rename: vreg:ret:     124:     219
+1132000: global: vreg:get:      92:     146:     218
+1132500: system.cpu.rename: vreg:ret:     146:     219
+1132500: system.cpu.rename: vreg:ret:     133:     220
+1132500: system.cpu.rename: vreg:ret:     134:     221
+1132500: system.cpu.rename: vreg:ret:     135:     222
+1133000: system.cpu.rename: vreg:ret:     123:     223
+1134000: global: vreg:get:     122:     145:     222
+1134500: global: vreg:get:     145:     144:     221
+1135500: global: vreg:get:     144:     143:     220
+1136500: global: vreg:get:     143:     142:     219
+1137000: global: vreg:get:      92:     141:     218
+1137500: global: vreg:get:      96:     140:     217
+1138000: global: vreg:get:      99:     139:     216
+1138000: system.cpu.rename: vreg:ret:     122:     217
+1138500: system.cpu.rename: vreg:ret:     139:     218
+1138500: system.cpu.rename: vreg:ret:     140:     219
+1138500: system.cpu.rename: vreg:ret:     141:     220
+1138500: system.cpu.rename: vreg:ret:     142:     221
+1138500: system.cpu.rename: vreg:ret:     143:     222
+1139000: system.cpu.rename: vreg:ret:     145:     223
+1141000: global: vreg:get:     144:     138:     222
+1141500: global: vreg:get:     138:     137:     221
+1142500: global: vreg:get:     137:     136:     220
+1143000: global: vreg:get:      92:     132:     219
+1143500: global: vreg:get:      96:     131:     218
+1144000: global: vreg:get:      99:     130:     217
+1144500: global: vreg:get:      98:     129:     216
+1145000: system.cpu.rename: vreg:ret:     144:     217
+1145500: system.cpu.rename: vreg:ret:     129:     218
+1145500: system.cpu.rename: vreg:ret:     130:     219
+1145500: system.cpu.rename: vreg:ret:     131:     220
+1145500: system.cpu.rename: vreg:ret:     132:     221
+1145500: system.cpu.rename: vreg:ret:     136:     222
+1146000: system.cpu.rename: vreg:ret:     138:     223
+1148000: global: vreg:get:     137:     128:     222
+1149000: global: vreg:get:     128:     127:     221
+1149500: global: vreg:get:      92:     126:     220
+1150000: global: vreg:get:      96:     125:     219
+1150500: global: vreg:get:      99:     121:     218
+1151000: global: vreg:get:      98:     120:     217
+1152000: global: vreg:get:      20:     119:     216
+1152000: system.cpu.rename: vreg:ret:     137:     217
+1152500: global: vreg:get:     103:     118:     216
+1152500: system.cpu.rename: vreg:ret:     128:     217
+1153000: global: vreg:get:     162:     116:     216
+1153500: global: vreg:get:     164:      76:     215
+1153500: system.cpu.rename: vreg:ret:      92:     216
+1154000: global: vreg:get:     190:     153:     215
+1154000: system.cpu.rename: vreg:ret:      96:     216
+1154500: global: vreg:get:     192:     152:     215
+1154500: system.cpu.rename: vreg:ret:      99:     216
+1155000: global: vreg:get:     101:     151:     215
+1155000: system.cpu.rename: vreg:ret:      98:     216
+1155500: global: vreg:get:     107:     150:     215
+1156000: global: vreg:get:      83:     149:     214
+1156000: system.cpu.rename: vreg:ret:      20:     215
+1156500: system.cpu.rename: vreg:ret:     103:     216
+1157000: global: vreg:get:     127:     117:     215
+1157000: system.cpu.rename: vreg:ret:     162:     216
+1157500: global: vreg:get:      94:     148:     215
+1157500: system.cpu.rename: vreg:ret:     164:     216
+1158000: system.cpu.rename: vreg:ret:     190:     217
+1158500: global: vreg:get:     117:     154:     216
+1158500: system.cpu.rename: vreg:ret:     192:     217
+1159000: system.cpu.rename: vreg:ret:     154:     218
+1159000: system.cpu.rename: vreg:ret:     148:     219
+1159000: system.cpu.rename: vreg:ret:     117:     220
+1159500: system.cpu.rename: vreg:ret:     101:     221
+1159500: system.cpu.rename: vreg:ret:     107:     222
+1159500: system.cpu.rename: vreg:ret:      83:     223
+1161500: global: vreg:get:     127:     155:     222
+1161500: global: vreg:get:     113:     161:     221
+1161500: global: vreg:get:     155:     160:     220
+1161500: global: vreg:get:      78:     159:     219
+1164500: system.cpu.rename: vreg:ret:     127:     220
+1165500: system.cpu.rename: vreg:ret:     159:     221
+1166000: system.cpu.rename: vreg:ret:     113:     222
+1166500: system.cpu.rename: vreg:ret:     155:     223
+1225000: global: vreg:get:      78:     158:     222
+1228000: system.cpu.rename: vreg:ret:      78:     223
+1298000: global: vreg:get:     149:     156:     222
+1298500: global: vreg:get:      94:     102:     221
+1300500: global: vreg:get:     158:     147:     220
+1301000: system.cpu.rename: vreg:ret:     149:     221
+1301500: system.cpu.rename: vreg:ret:      94:     222
+1303500: system.cpu.rename: vreg:ret:     158:     223
+1387000: global: vreg:get:     109:     105:     222
+1390000: system.cpu.rename: vreg:ret:     109:     223

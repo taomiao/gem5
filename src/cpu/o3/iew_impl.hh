@@ -629,7 +629,8 @@ DefaultIEW<Impl>::instToCommit(const DynInstPtr& inst)
     // and write the instruction to that time.  If there are not,
     // keep looking back to see where's the first time there's a
     // free slot.
-        std::cout<<"instToCommit:";inst->dump();
+
+    std::cout<<"instToCommit:";inst->dump();
     while ((*iewQueue)[wbCycle].insts[wbNumInst]) {
         ++wbNumInst;
         if (wbNumInst == wbWidth) {
@@ -1479,7 +1480,7 @@ DefaultIEW<Impl>::writebackInsts()
             for (int i = 0; i < inst->numDestRegs(); i++) {
                 //mark as Ready
                 DPRINTF(IEW,"Setting virtual Destination Register %i\n",
-                        (long)(inst->renamedVirDestRegIdx(i)));
+                        inst->renamedVirDestRegIdx(i)->flatIndex());
                        // inst->renamedDestRegIdx(i)->className());
                 scoreboard->setReg(inst->renamedVirDestRegIdx(i));
             }

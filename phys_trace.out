@@ -1,0 +1,452 @@
+  81000: system.cpu: preg:get:      33:     222
+  82500: system.cpu.rename: preg:ret:       1:     223
+ 139500: system.cpu: preg:get:      34:     222
+ 140000: system.cpu: preg:get:      35:     221
+ 140000: system.cpu: preg:get:      36:     220
+ 140000: system.cpu: preg:get:      37:     219
+ 140000: system.cpu: preg:get:      38:     218
+ 140500: system.cpu.rename: preg:ret:      38:     219
+ 140500: system.cpu.rename: preg:ret:      37:     220
+ 140500: system.cpu.rename: preg:ret:      36:     221
+ 141500: system.cpu.rename: preg:ret:       3:     222
+ 141500: system.cpu.rename: preg:ret:      34:     223
+ 144500: system.cpu: preg:get:      39:     222
+ 145500: system.cpu: preg:get:      40:     221
+ 145500: system.cpu: preg:get:      41:     220
+ 146000: system.cpu.rename: preg:ret:      15:     221
+ 146000: system.cpu: preg:get:      42:     220
+ 146000: system.cpu: preg:get:      43:     219
+ 146000: system.cpu: preg:get:      44:     218
+ 147000: system.cpu.rename: preg:ret:      10:     219
+ 147000: system.cpu: preg:get:      45:     218
+ 147000: system.cpu: preg:get:      46:     217
+ 147000: system.cpu: preg:get:      47:     216
+ 147500: system.cpu.rename: preg:ret:      40:     217
+ 147500: system.cpu: preg:get:      48:     216
+ 211000: system.cpu: preg:get:      49:     215
+ 212500: system.cpu.rename: preg:ret:      11:     216
+ 212500: system.cpu.rename: preg:ret:      12:     217
+ 212500: system.cpu.rename: preg:ret:       2:     218
+ 212500: system.cpu.rename: preg:ret:      13:     219
+ 212500: system.cpu.rename: preg:ret:      44:     220
+ 212500: system.cpu.rename: preg:ret:      14:     221
+ 212500: system.cpu.rename: preg:ret:      46:     222
+ 212500: system.cpu.rename: preg:ret:      16:     223
+ 217500: system.cpu: preg:get:      50:     222
+ 218000: system.cpu: preg:get:      51:     221
+ 219000: system.cpu.rename: preg:ret:      43:     222
+ 219500: system.cpu.rename: preg:ret:      17:     223
+ 276500: system.cpu: preg:get:      52:     222
+ 278000: system.cpu.rename: preg:ret:       6:     223
+ 278000: system.cpu: preg:get:      53:     222
+ 278500: system.cpu: preg:get:      54:     221
+ 279000: system.cpu: preg:get:      55:     220
+ 279500: system.cpu.rename: preg:ret:      18:     221
+ 279500: system.cpu: preg:get:      56:     220
+ 280000: system.cpu.rename: preg:ret:       8:     221
+ 280500: system.cpu.rename: preg:ret:       9:     222
+ 281500: system.cpu.rename: preg:ret:      39:     223
+ 287000: system.cpu: preg:get:      57:     222
+ 340004: system.cpu: preg:get:      58:     221
+ 340005: system.cpu: preg:get:      59:     220
+ 341000: system.cpu: preg:get:      60:     219
+ 341500: system.cpu: preg:get:      61:     218
+ 342000: system.cpu.rename: preg:ret:      48:     219
+ 342000: system.cpu: preg:get:      62:     218
+ 342500: system.cpu.rename: preg:ret:      42:     219
+ 342500: system.cpu.rename: preg:ret:      58:     220
+ 342500: system.cpu: preg:get:      63:     219
+ 343000: system.cpu.rename: preg:ret:      60:     220
+ 343500: system.cpu.rename: preg:ret:      61:     221
+ 344000: system.cpu: preg:get:      64:     220
+ 344000: system.cpu.rename: preg:ret:      56:     221
+ 344000: system.cpu.rename: preg:ret:      62:     222
+ 344500: system.cpu: preg:get:      65:     221
+ 345500: system.cpu.rename: preg:ret:      57:     222
+ 346000: system.cpu.rename: preg:ret:      33:     223
+ 412000: system.cpu: preg:get:      66:     222
+ 469500: system.cpu: preg:get:      67:     221
+ 469500: system.cpu: preg:get:      68:     220
+ 470500: system.cpu: preg:get:      69:     219
+ 471000: system.cpu: preg:get:      70:     218
+ 471500: system.cpu: preg:get:      71:     217
+ 471500: system.cpu: preg:get:      72:     216
+ 471500: system.cpu: preg:get:      73:     215
+ 472500: system.cpu: preg:get:      74:     214
+ 473000: system.cpu: preg:get:      75:     213
+ 473000: system.cpu: preg:get:      76:     212
+ 475000: system.cpu: preg:get:      77:     211
+ 476500: system.cpu.rename: preg:ret:      64:     212
+ 476500: system.cpu.rename: preg:ret:      59:     213
+ 477000: system.cpu.rename: preg:ret:      30:     214
+ 541000: system.cpu: preg:get:      78:     213
+ 542500: system.cpu.rename: preg:ret:      66:     214
+ 542500: system.cpu.rename: preg:ret:      50:     215
+ 543000: system.cpu.rename: preg:ret:      78:     216
+ 543000: system.cpu.rename: preg:ret:      49:     217
+ 543000: system.cpu.rename: preg:ret:      69:     218
+ 543000: system.cpu.rename: preg:ret:      71:     219
+ 543000: system.cpu.rename: preg:ret:      28:     220
+ 543000: system.cpu.rename: preg:ret:      52:     221
+ 543500: system.cpu.rename: preg:ret:      74:     222
+ 553500: system.cpu: preg:get:      79:     221
+ 554000: system.cpu: preg:get:      80:     220
+ 554000: system.cpu: preg:get:      81:     219
+ 554500: system.cpu: preg:get:      82:     218
+ 556000: system.cpu: preg:get:      83:     217
+ 557000: system.cpu: preg:get:      84:     216
+ 557001: system.cpu: preg:get:      85:     215
+ 557500: system.cpu.rename: preg:ret:      75:     216
+ 557500: system.cpu.rename: preg:ret:      54:     217
+ 558500: system.cpu.rename: preg:ret:      83:     218
+ 559000: system.cpu.rename: preg:ret:      84:     219
+ 565000: system.cpu: preg:get:      86:     218
+ 566500: system.cpu.rename: preg:ret:      85:     219
+ 566500: system.cpu.rename: preg:ret:      55:     220
+ 602000: system.cpu: preg:get:      87:     219
+ 616500: system.cpu: preg:get:      88:     218
+ 617000: system.cpu: preg:get:      89:     217
+ 617500: system.cpu: preg:get:      90:     216
+ 618000: system.cpu: preg:get:      91:     215
+ 621000: system.cpu: preg:get:      92:     214
+ 621000: system.cpu: preg:get:      93:     213
+ 621500: system.cpu: preg:get:      94:     212
+ 622000: system.cpu: preg:get:      95:     211
+ 622500: system.cpu.rename: preg:ret:      86:     212
+ 622500: system.cpu.rename: preg:ret:      19:     213
+ 622500: system.cpu.rename: preg:ret:      53:     214
+ 622500: system.cpu: preg:get:      96:     213
+ 623000: system.cpu.rename: preg:ret:      92:     214
+ 623000: system.cpu: preg:get:      97:     213
+ 623500: system.cpu.rename: preg:ret:      26:     214
+ 623500: system.cpu.rename: preg:ret:      22:     215
+ 623500: system.cpu.rename: preg:ret:      21:     216
+ 623500: system.cpu.rename: preg:ret:      24:     217
+ 623500: system.cpu.rename: preg:ret:      23:     218
+ 623500: system.cpu: preg:get:      98:     217
+ 624000: system.cpu.rename: preg:ret:      25:     218
+ 624000: system.cpu.rename: preg:ret:      27:     219
+ 624000: system.cpu.rename: preg:ret:      29:     220
+ 624000: system.cpu: preg:get:      99:     219
+ 624500: system.cpu.rename: preg:ret:      51:     220
+ 624500: system.cpu.rename: preg:ret:      47:     221
+ 624500: system.cpu: preg:get:     100:     220
+ 624500: system.cpu: preg:get:     101:     219
+ 625000: system.cpu.rename: preg:ret:      41:     220
+ 625000: system.cpu: preg:get:     102:     219
+ 625500: system.cpu.rename: preg:ret:      45:     220
+ 625500: system.cpu: preg:get:     103:     219
+ 626000: system.cpu.rename: preg:ret:      82:     220
+ 626000: system.cpu.rename: preg:ret:      77:     221
+ 626500: system.cpu.rename: preg:ret:     101:     222
+ 627000: system.cpu.rename: preg:ret:     102:     223
+ 628000: system.cpu: preg:get:     104:     222
+ 685500: system.cpu: preg:get:     105:     221
+ 686000: system.cpu: preg:get:     106:     220
+ 687500: system.cpu: preg:get:     107:     219
+ 693000: system.cpu: preg:get:     108:     218
+ 694000: system.cpu: preg:get:     109:     217
+ 694500: system.cpu: preg:get:     110:     216
+ 696500: system.cpu: preg:get:     111:     215
+ 697500: system.cpu: preg:get:     112:     214
+ 698000: system.cpu: preg:get:     113:     213
+ 699500: system.cpu: preg:get:     114:     212
+ 705000: system.cpu: preg:get:     115:     211
+ 706000: system.cpu: preg:get:     116:     210
+ 706500: system.cpu: preg:get:     117:     209
+ 708500: system.cpu: preg:get:     118:     208
+ 709500: system.cpu: preg:get:     119:     207
+ 710000: system.cpu: preg:get:     120:     206
+ 711500: system.cpu: preg:get:     121:     205
+ 712000: system.cpu: preg:get:     122:     204
+ 714000: system.cpu.rename: preg:ret:     121:     205
+ 714000: system.cpu.rename: preg:ret:     120:     206
+ 714000: system.cpu.rename: preg:ret:     119:     207
+ 714000: system.cpu.rename: preg:ret:     118:     208
+ 714000: system.cpu.rename: preg:ret:     117:     209
+ 714000: system.cpu.rename: preg:ret:     116:     210
+ 714000: system.cpu.rename: preg:ret:     115:     211
+ 714000: system.cpu.rename: preg:ret:     114:     212
+ 714000: system.cpu.rename: preg:ret:     113:     213
+ 714000: system.cpu.rename: preg:ret:     112:     214
+ 714000: system.cpu.rename: preg:ret:     111:     215
+ 714000: system.cpu.rename: preg:ret:     110:     216
+ 714000: system.cpu.rename: preg:ret:     109:     217
+ 714000: system.cpu.rename: preg:ret:     108:     218
+ 714000: system.cpu.rename: preg:ret:     107:     219
+ 714000: system.cpu.rename: preg:ret:     106:     220
+ 714000: system.cpu.rename: preg:ret:     105:     221
+ 714000: system.cpu.rename: preg:ret:     104:     222
+ 718500: system.cpu.rename: preg:ret:     103:     223
+ 721500: system.cpu: preg:get:     123:     222
+ 723000: system.cpu.rename: preg:ret:      63:     223
+ 723500: system.cpu: preg:get:     124:     222
+ 726500: system.cpu.rename: preg:ret:     122:     223
+ 729500: system.cpu: preg:get:     125:     222
+ 730500: system.cpu: preg:get:     126:     221
+ 731000: system.cpu.rename: preg:ret:     124:     222
+ 731000: system.cpu: preg:get:     127:     221
+ 732000: system.cpu.rename: preg:ret:     125:     222
+ 732500: system.cpu: preg:get:     128:     221
+ 732500: system.cpu.rename: preg:ret:     126:     222
+ 732501: system.cpu: preg:get:     129:     221
+ 733500: system.cpu: preg:get:     130:     220
+ 734000: system.cpu.rename: preg:ret:     130:     221
+ 734000: system.cpu.rename: preg:ret:     129:     222
+ 734500: system.cpu.rename: preg:ret:     127:     223
+ 788500: system.cpu: preg:get:     131:     222
+ 789000: system.cpu: preg:get:     132:     221
+ 789500: system.cpu: preg:get:     133:     220
+ 790500: system.cpu: preg:get:     134:     219
+ 791000: system.cpu.rename: preg:ret:      90:     220
+ 791000: system.cpu.rename: preg:ret:     123:     221
+ 791000: system.cpu.rename: preg:ret:      89:     222
+ 792000: system.cpu.rename: preg:ret:     128:     223
+ 848000: system.cpu: preg:get:     135:     222
+ 848500: system.cpu.rename: preg:ret:     135:     223
+ 852500: system.cpu: preg:get:     136:     222
+ 853000: system.cpu: preg:get:     137:     221
+ 853500: system.cpu: preg:get:     138:     220
+ 854000: system.cpu.rename: preg:ret:     134:     221
+ 854500: system.cpu.rename: preg:ret:     136:     222
+ 855000: system.cpu: preg:get:     139:     221
+ 855000: system.cpu.rename: preg:ret:     137:     222
+ 856000: system.cpu: preg:get:     140:     221
+ 856500: system.cpu.rename: preg:ret:     140:     222
+ 857000: system.cpu.rename: preg:ret:     138:     223
+ 859500: system.cpu: preg:get:     141:     222
+ 861000: system.cpu: preg:get:     142:     221
+ 861000: system.cpu.rename: preg:ret:     131:     222
+ 863500: system.cpu.rename: preg:ret:     139:     223
+ 866500: system.cpu: preg:get:     143:     222
+ 867500: system.cpu: preg:get:     144:     221
+ 868000: system.cpu.rename: preg:ret:     142:     222
+ 868000: system.cpu: preg:get:     145:     221
+ 869000: system.cpu.rename: preg:ret:     143:     222
+ 869500: system.cpu: preg:get:     146:     221
+ 869500: system.cpu.rename: preg:ret:     144:     222
+ 870000: system.cpu: preg:get:     147:     221
+ 871000: system.cpu.rename: preg:ret:     147:     222
+ 871500: system.cpu.rename: preg:ret:     145:     223
+ 875000: system.cpu: preg:get:     148:     222
+ 875500: system.cpu: preg:get:     149:     221
+ 876000: system.cpu: preg:get:     150:     220
+ 878000: system.cpu.rename: preg:ret:      91:     221
+ 878000: system.cpu.rename: preg:ret:     141:     222
+ 878000: system.cpu.rename: preg:ret:      93:     223
+ 890500: system.cpu: preg:get:     151:     222
+ 891500: system.cpu: preg:get:     152:     221
+ 892000: system.cpu.rename: preg:ret:     152:     222
+ 897000: system.cpu: preg:get:     153:     221
+ 898000: system.cpu: preg:get:     154:     220
+ 898500: system.cpu.rename: preg:ret:     154:     221
+ 902500: system.cpu: preg:get:     155:     220
+ 903500: system.cpu: preg:get:     156:     219
+ 904000: system.cpu.rename: preg:ret:     156:     220
+ 908000: system.cpu: preg:get:     157:     219
+ 909000: system.cpu: preg:get:     158:     218
+ 909500: system.cpu.rename: preg:ret:     158:     219
+ 913500: system.cpu: preg:get:     159:     218
+ 914500: system.cpu: preg:get:     160:     217
+ 915000: system.cpu.rename: preg:ret:     160:     218
+ 919000: system.cpu: preg:get:     161:     217
+ 920000: system.cpu: preg:get:     162:     216
+ 920500: system.cpu.rename: preg:ret:     162:     217
+ 924500: system.cpu: preg:get:     163:     216
+ 925500: system.cpu: preg:get:     164:     215
+ 925500: system.cpu: preg:get:     165:     214
+ 926000: system.cpu.rename: preg:ret:     165:     215
+ 926000: system.cpu.rename: preg:ret:     164:     216
+ 930000: system.cpu: preg:get:     166:     215
+ 931500: system.cpu: preg:get:     167:     214
+ 932000: system.cpu: preg:get:     168:     213
+ 932500: system.cpu: preg:get:     169:     212
+ 933000: system.cpu: preg:get:     170:     211
+ 933001: system.cpu: preg:get:     171:     210
+ 934500: system.cpu.rename: preg:ret:     171:     211
+ 934500: system.cpu.rename: preg:ret:     169:     212
+ 934500: system.cpu.rename: preg:ret:     168:     213
+ 934500: system.cpu.rename: preg:ret:     167:     214
+ 934500: system.cpu.rename: preg:ret:     166:     215
+ 934500: system.cpu.rename: preg:ret:     163:     216
+ 934500: system.cpu.rename: preg:ret:     161:     217
+ 934500: system.cpu.rename: preg:ret:     159:     218
+ 934500: system.cpu.rename: preg:ret:     157:     219
+ 934500: system.cpu.rename: preg:ret:     155:     220
+ 934500: system.cpu.rename: preg:ret:     153:     221
+ 934500: system.cpu.rename: preg:ret:     151:     222
+ 939500: system.cpu.rename: preg:ret:     146:     223
+ 942500: system.cpu: preg:get:     172:     222
+ 943500: system.cpu: preg:get:     173:     221
+ 944000: system.cpu.rename: preg:ret:     170:     222
+ 944000: system.cpu: preg:get:     174:     221
+ 944000: system.cpu: preg:get:     175:     220
+ 944000: system.cpu: preg:get:     176:     219
+ 944500: system.cpu: preg:get:     177:     218
+ 945000: system.cpu.rename: preg:ret:     172:     219
+ 945500: system.cpu: preg:get:     178:     218
+ 945500: system.cpu.rename: preg:ret:     173:     219
+ 945501: system.cpu: preg:get:     179:     218
+ 947000: system.cpu.rename: preg:ret:     174:     219
+ 948500: system.cpu.rename: preg:ret:     178:     220
+ 948500: system.cpu.rename: preg:ret:      95:     221
+ 948500: system.cpu.rename: preg:ret:     148:     222
+ 948500: system.cpu.rename: preg:ret:     177:     223
+ 951500: system.cpu: preg:get:     180:     222
+ 952500: system.cpu: preg:get:     181:     221
+ 953000: system.cpu.rename: preg:ret:     179:     222
+ 953000: system.cpu: preg:get:     182:     221
+ 954000: system.cpu.rename: preg:ret:     180:     222
+ 954500: system.cpu.rename: preg:ret:     181:     223
+ 955000: system.cpu: preg:get:     183:     222
+ 956000: system.cpu: preg:get:     184:     221
+ 956500: system.cpu.rename: preg:ret:     184:     222
+ 959500: system.cpu: preg:get:     185:     221
+ 961000: system.cpu: preg:get:     186:     220
+ 966500: system.cpu: preg:get:     187:     219
+ 967500: system.cpu: preg:get:     188:     218
+ 968000: system.cpu: preg:get:     189:     217
+ 970000: system.cpu: preg:get:     190:     216
+ 971000: system.cpu: preg:get:     191:     215
+ 971500: system.cpu: preg:get:     192:     214
+ 973000: system.cpu: preg:get:     193:     213
+ 978000: system.cpu: preg:get:     194:     212
+ 979000: system.cpu: preg:get:     195:     211
+ 980000: system.cpu.rename: preg:ret:     195:     212
+ 993000: system.cpu: preg:get:     196:     211
+ 994000: system.cpu: preg:get:     197:     210
+ 994500: system.cpu.rename: preg:ret:     197:     211
+ 999500: system.cpu: preg:get:     198:     210
+1000500: system.cpu: preg:get:     199:     209
+1001000: system.cpu.rename: preg:ret:     199:     210
+1005000: system.cpu: preg:get:     200:     209
+1006000: system.cpu: preg:get:     201:     208
+1006500: system.cpu.rename: preg:ret:     201:     209
+1010500: system.cpu: preg:get:     202:     208
+1011000: system.cpu: preg:get:     203:     207
+1011500: system.cpu: preg:get:     204:     206
+1012000: system.cpu.rename: preg:ret:     204:     207
+1012500: system.cpu.rename: preg:ret:     202:     208
+1012500: system.cpu.rename: preg:ret:     200:     209
+1012500: system.cpu.rename: preg:ret:     198:     210
+1012500: system.cpu.rename: preg:ret:     196:     211
+1012500: system.cpu.rename: preg:ret:     194:     212
+1012500: system.cpu.rename: preg:ret:     193:     213
+1012500: system.cpu.rename: preg:ret:     192:     214
+1012500: system.cpu.rename: preg:ret:     191:     215
+1012500: system.cpu.rename: preg:ret:     190:     216
+1012500: system.cpu.rename: preg:ret:     189:     217
+1012500: system.cpu.rename: preg:ret:     188:     218
+1012500: system.cpu.rename: preg:ret:     187:     219
+1012500: system.cpu.rename: preg:ret:     186:     220
+1012500: system.cpu.rename: preg:ret:     185:     221
+1012500: system.cpu.rename: preg:ret:     183:     222
+1018500: system.cpu.rename: preg:ret:     182:     223
+1073000: system.cpu: preg:get:     205:     222
+1073500: system.cpu: preg:get:     206:     221
+1073500: system.cpu: preg:get:     207:     220
+1074500: system.cpu: preg:get:     208:     219
+1075000: system.cpu.rename: preg:ret:     203:     220
+1075000: system.cpu.rename: preg:ret:     176:     221
+1075000: system.cpu.rename: preg:ret:      98:     222
+1076000: system.cpu.rename: preg:ret:     206:     223
+1077500: system.cpu: preg:get:     209:     222
+1079500: system.cpu.rename: preg:ret:     208:     223
+1083000: system.cpu: preg:get:     210:     222
+1083500: system.cpu: preg:get:     211:     221
+1084000: system.cpu: preg:get:     212:     220
+1084500: system.cpu.rename: preg:ret:     209:     221
+1085000: system.cpu.rename: preg:ret:     210:     222
+1085500: system.cpu: preg:get:     213:     221
+1085500: system.cpu.rename: preg:ret:     211:     222
+1086500: system.cpu: preg:get:     214:     221
+1087000: system.cpu.rename: preg:ret:     214:     222
+1087500: system.cpu.rename: preg:ret:     212:     223
+1091500: system.cpu: preg:get:     215:     222
+1092000: system.cpu: preg:get:     216:     221
+1092500: system.cpu: preg:get:     217:     220
+1093500: system.cpu.rename: preg:ret:     213:     221
+1093500: system.cpu.rename: preg:ret:     205:     222
+1094000: system.cpu.rename: preg:ret:     216:     223
+1094500: system.cpu: preg:get:     218:     222
+1096500: system.cpu.rename: preg:ret:     217:     223
+1106000: system.cpu: preg:get:     219:     222
+1106000: system.cpu: preg:get:     220:     221
+1107000: system.cpu.rename: preg:ret:     220:     222
+1107500: system.cpu.rename: preg:ret:     218:     223
+1121000: system.cpu: preg:get:     221:     222
+1122000: system.cpu: preg:get:     222:     221
+1122500: system.cpu.rename: preg:ret:     222:     222
+1123000: system.cpu.rename: preg:ret:     219:     223
+1127500: system.cpu: preg:get:     223:     222
+1129000: system.cpu: preg:get:     224:     221
+1129000: system.cpu.rename: preg:ret:     221:     222
+1130000: system.cpu: preg:get:     225:     221
+1130500: system.cpu.rename: preg:ret:     223:     222
+1131000: system.cpu: preg:get:     226:     221
+1131500: system.cpu.rename: preg:ret:     224:     222
+1132000: system.cpu: preg:get:     227:     221
+1132500: system.cpu.rename: preg:ret:     227:     222
+1133000: system.cpu.rename: preg:ret:     225:     223
+1136500: system.cpu: preg:get:     228:     222
+1137000: system.cpu: preg:get:     229:     221
+1138000: system.cpu: preg:get:     230:     220
+1138000: system.cpu.rename: preg:ret:     226:     221
+1138000: system.cpu: preg:get:     231:     220
+1138500: system.cpu.rename: preg:ret:     231:     221
+1138500: system.cpu.rename: preg:ret:     230:     222
+1139000: system.cpu.rename: preg:ret:     228:     223
+1143500: system.cpu: preg:get:     232:     222
+1144000: system.cpu: preg:get:     233:     221
+1144000: system.cpu: preg:get:     234:     220
+1145000: system.cpu.rename: preg:ret:     229:     221
+1145500: system.cpu.rename: preg:ret:     234:     222
+1146000: system.cpu.rename: preg:ret:     232:     223
+1150500: system.cpu: preg:get:     235:     222
+1150500: system.cpu: preg:get:     236:     221
+1152000: system.cpu: preg:get:     237:     220
+1152000: system.cpu.rename: preg:ret:     233:     221
+1152500: system.cpu: preg:get:     238:     220
+1152500: system.cpu.rename: preg:ret:     235:     221
+1153000: system.cpu: preg:get:     239:     220
+1153500: system.cpu: preg:get:     240:     219
+1153500: system.cpu.rename: preg:ret:      76:     220
+1154000: system.cpu.rename: preg:ret:      79:     221
+1154500: system.cpu: preg:get:     241:     220
+1154500: system.cpu.rename: preg:ret:      81:     221
+1155000: system.cpu: preg:get:     242:     220
+1155000: system.cpu.rename: preg:ret:      80:     221
+1155500: system.cpu: preg:get:     243:     220
+1156000: system.cpu: preg:get:     244:     219
+1156000: system.cpu.rename: preg:ret:      20:     220
+1156500: system.cpu: preg:get:     245:     219
+1156500: system.cpu.rename: preg:ret:      88:     220
+1157000: system.cpu: preg:get:     246:     219
+1157000: system.cpu.rename: preg:ret:     133:     220
+1157500: system.cpu: preg:get:     247:     219
+1157500: system.cpu.rename: preg:ret:     132:     220
+1157500: system.cpu: preg:get:     248:     219
+1158000: system.cpu: preg:get:     249:     218
+1158000: system.cpu.rename: preg:ret:     150:     219
+1158500: system.cpu.rename: preg:ret:     149:     220
+1159500: system.cpu.rename: preg:ret:      87:     221
+1159500: system.cpu.rename: preg:ret:      94:     222
+1159500: system.cpu.rename: preg:ret:      68:     223
+1163000: system.cpu: preg:get:     250:     222
+1163000: system.cpu: preg:get:     251:     221
+1164000: system.cpu: preg:get:     252:     220
+1164500: system.cpu: preg:get:     253:     219
+1164500: system.cpu.rename: preg:ret:     236:     220
+1165500: system.cpu.rename: preg:ret:     251:     221
+1166000: system.cpu.rename: preg:ret:     100:     222
+1166500: system.cpu.rename: preg:ret:     250:     223
+1226500: system.cpu: preg:get:     254:     222
+1228000: system.cpu.rename: preg:ret:      65:     223
+1299500: system.cpu: preg:get:     255:     222
+1300000: system.cpu: preg:get:       1:     221
+1301000: system.cpu.rename: preg:ret:     248:     222
+1301500: system.cpu.rename: preg:ret:     215:     223
+1302000: system.cpu: preg:get:      38:     222
+1303500: system.cpu.rename: preg:ret:     254:     223
+1388500: system.cpu: preg:get:      37:     222
+1390000: system.cpu.rename: preg:ret:      96:     223

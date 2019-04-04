@@ -684,7 +684,7 @@ Checker<Impl>::dumpAndExit(const DynInstPtr &inst)
             inst->seqNum,
             inst->threadNumber,
             inst->isCompleted());
-    inst->dump();
+    //inst->dump();
     CheckerCPU::dumpAndExit();
 }
 

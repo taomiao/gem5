@@ -46,7 +46,9 @@
 #include <vector>
 
 #include "cpu/reg_class.hh"
+#include "debug/PhysReg.hh"
 #include "debug/Rename.hh"
+#include "debug/VirtualReg.hh"
 
 using namespace std;
 
@@ -78,12 +80,12 @@ SimpleVirRenameMap::init(unsigned size, SimpleFreeList *_freeList,
 SimpleVirRenameMap::RenameInfo
 SimpleVirRenameMap::rename(const RegId& arch_reg,const PhysRegIdPtr& vir_reg)
 {
-        DPRINTF(Rename,"get into vir rename with arch_reg is %d and vir_reg is %d\n",arch_reg.flatIndex(),(long)vir_reg);
+        DPRINTF(Rename,"get into vir rename with arch_reg is %d and vir_reg is %d\n",arch_reg.flatIndex(), vir_reg->index());
     PhysRegIdPtr renamed_reg;
 
     // Record the current physical register that is renamed to the
     // requested architected register.
-    PhysRegIdPtr prev_reg = map[(long)vir_reg];
+    PhysRegIdPtr prev_reg = map[vir_reg->index()];
 
     // If it's not referencing the zero register, then rename the
     // register.
@@ -91,8 +93,8 @@ SimpleVirRenameMap::rename(const RegId& arch_reg,const PhysRegIdPtr& vir_reg)
                 // v_freelist
 
         renamed_reg = freeList->getReg();
-
-        map[(long)vir_reg] = renamed_reg;
+        DPRINTF(PhysReg,"=========================================================preg:get:%d\n",renamed_reg->index());
+        map[vir_reg->index()] = renamed_reg;
     } else {
         // Otherwise return the zero register so nothing bad happens.
         assert(prev_reg->isZeroReg());
@@ -101,8 +103,8 @@ SimpleVirRenameMap::rename(const RegId& arch_reg,const PhysRegIdPtr& vir_reg)
 
     DPRINTF(Rename, "Renamed reg %d to virtual reg %d (%d) physical reg %d (%d) old mapping was"
             " %d (%d)\n",
-            arch_reg,(long)vir_reg, (long)vir_reg, renamed_reg->flatIndex(), renamed_reg->flatIndex(),
-            (long)prev_reg, (long)prev_reg);
+            arch_reg, vir_reg->index(), vir_reg->index(), renamed_reg->flatIndex(), renamed_reg->flatIndex(),
+            prev_reg->index(), prev_reg->index());
 
     //return RenameInfo(renamed_reg, prev_reg);
         RenameInfo renamed_info;
@@ -137,11 +139,11 @@ SimpleRenameMap::RenameInfo
 SimpleRenameMap::rename(const RegId& arch_reg)
 {
         DPRINTF(Rename,"get into simple rename func with arch_reg is %d,map size is %d,freelist is XX\n",arch_reg.flatIndex(),map.size());
-    PhysRegIdPtr renamed_reg;
+    VirsRegIdPtr renamed_reg;
 
     // Record the current physical register that is renamed to the
     // requested architected register.
-    PhysRegIdPtr prev_reg = map[arch_reg.flatIndex()];
+    VirsRegIdPtr prev_reg = map[arch_reg.flatIndex()];
 
     // If it's not referencing the zero register, then rename the
     // register.
@@ -149,18 +151,18 @@ SimpleRenameMap::rename(const RegId& arch_reg)
                 // v_freelist
 
         renamed_reg = freeList->getReg();
-                DPRINTF(Rename,"prev_reg is %d , get vir reg is %d\n",(long)prev_reg,(long)renamed_reg);
+        //DPRINTF(VirtualReg,"vreg:get:%8d:%8d:%8d\n", prev_reg->index(), renamed_reg->index(), freeList->numFreeRegs());
         map[arch_reg.flatIndex()] = renamed_reg;
     } else {
         // Otherwise return the zero register so nothing bad happens.
-        assert(prev_reg->isZeroReg());
+        assert(prev_reg->index()==0);
         renamed_reg = prev_reg;
     }
 
     DPRINTF(Rename, "Renamed reg %d to vir reg %d (%d) old mapping was"
             " %d (%d)\n",
-            arch_reg,(long)renamed_reg, (long)renamed_reg,
-            (long)prev_reg, (long)prev_reg);
+            arch_reg, renamed_reg->index(), renamed_reg->index(),
+            prev_reg->index(), prev_reg->index());
 
     //return RenameInfo(renamed_reg, prev_reg);
         RenameInfo renamed_info;

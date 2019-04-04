@@ -1036,14 +1036,14 @@ InstructionQueue<Impl>::wakeDependents(const DynInstPtr &completed_inst)
             continue;
         }
 
-        DPRINTF(IQ, "Waking any dependents on vir_reg is %d and phys register %i (%s).\n",
-                                (long)vir_dst_reg,
+        DPRINTF(IQ, "Waking any dependents on vir_reg is %d(flat:%d) and phys register %i (%s).\n",
+                                vir_dst_reg->index(),vir_dst_reg->flatIndex(),
                 dest_reg->index(),
                 dest_reg->className());
 
         //Go through the dependency chain, marking the registers as
         //ready within the waiting instructions.
-        DynInstPtr dep_inst = dependGraph.pop((long)vir_dst_reg);
+        DynInstPtr dep_inst = dependGraph.pop(vir_dst_reg->flatIndex());
 
         while (dep_inst) {
             DPRINTF(IQ, "Waking up a dependent instruction, [sn:%lli] "
@@ -1059,18 +1059,18 @@ InstructionQueue<Impl>::wakeDependents(const DynInstPtr &completed_inst)
 
             addIfReady(dep_inst);
 
-            dep_inst = dependGraph.pop((long)vir_dst_reg);
+            dep_inst = dependGraph.pop(vir_dst_reg->flatIndex());
 
             ++dependents;
         }
 
         // Reset the head node now that all of its dependents have
         // been woken up.
-        assert(dependGraph.empty((long)vir_dst_reg));
-        dependGraph.clearInst((long)vir_dst_reg);
+        assert(dependGraph.empty(vir_dst_reg->flatIndex()));
+        dependGraph.clearInst(vir_dst_reg->flatIndex());
 
         // Mark the scoreboard as having that register ready.
-        regScoreboard[(long)vir_dst_reg] = true;
+        regScoreboard[vir_dst_reg->flatIndex()] = true;
     }
     return dependents;
 }
@@ -1285,10 +1285,10 @@ InstructionQueue<Impl>::doSquash(ThreadID tid)
                     // overwritten.  The only downside to this is it
                     // leaves more room for error.
 
-                    if (!squashed_inst->isReadySrcRegIdx(src_reg_idx) && src_reg != 0) {// &&
-                       // !src_reg->isFixedMapping()) {
-                                                DPRINTF(IQ,"Instruction [sn:%lli] squashed remove dependgraph %d\n",squashed_inst->seqNum,(long)src_reg);
-                        dependGraph.remove((long)src_reg,//src_reg->flatIndex(),
+                    if (!squashed_inst->isReadySrcRegIdx(src_reg_idx) &&
+                        !src_reg->isFixedMapping()) {
+                                                DPRINTF(IQ,"Instruction [sn:%lli] squashed remove dependgraph %d\n",squashed_inst->seqNum,src_reg->index());
+                        dependGraph.remove(src_reg->flatIndex(),
                                            squashed_inst);
                     }
 
@@ -1352,8 +1352,8 @@ InstructionQueue<Impl>::doSquash(ThreadID tid)
             if (dest_reg == 0){//(dest_reg->isFixedMapping()){
                 continue;
             }
-            assert(dependGraph.empty((long)dest_reg));
-            dependGraph.clearInst((long)dest_reg);
+            assert(dependGraph.empty(dest_reg->flatIndex()));
+            dependGraph.clearInst(dest_reg->flatIndex());
         }
         instList[tid].erase(squash_it--);
         ++iqSquashedInstsExamined;
@@ -1376,6 +1376,7 @@ InstructionQueue<Impl>::addToDependents(const DynInstPtr &new_inst)
     {
         // Only add it to the dependency graph if it's not ready.
         if (!new_inst->isReadySrcRegIdx(src_reg_idx)) {
+                        const RegId& arch_reg = new_inst->srcRegIdx(src_reg_idx);
             PhysRegIdPtr src_reg = new_inst->renamedVirSrcRegIdx(src_reg_idx);
 
             // Check the IQ's scoreboard to make sure the register
@@ -1383,24 +1384,27 @@ InstructionQueue<Impl>::addToDependents(const DynInstPtr &new_inst)
             // between stages.  Only if it really isn't ready should
             // it be added to the dependency graph.
 
-                        if (src_reg == 0) {//(src_reg->isFixedMapping()) {
+          if (src_reg->isFixedMapping()) {
                 continue;
-            } else if (!regScoreboard[(long)src_reg]) {
+           } else if (!regScoreboard[src_reg->flatIndex()]) {
                 DPRINTF(IQ, "Instruction PC %s has src reg %i that "
                         "is being added to the dependency chain.\n",
-                        new_inst->pcState(), (long)src_reg
+                        new_inst->pcState(), src_reg->index()
                         );
 
-                dependGraph.insert((long)src_reg, new_inst);
+                dependGraph.insert(src_reg->flatIndex(), new_inst);
 
                 // Change the return value to indicate that something
                 // was added to the dependency graph.
                 return_val = true;
             } else {
-                DPRINTF(IQ, "Instruction PC %s has src reg %i that "
+                                PhysRegIdPtr phy_src_reg = cpu->lookup(new_inst->threadNumber, arch_reg, src_reg);
+                assert(phy_src_reg != NULL);
+                                DPRINTF(IQ, "Instruction PC %s has arch_reg %d vir_src reg %i phys_reg %d that "
                         "became ready before it reached the IQ.\n",
-                        new_inst->pcState(), (long)src_reg
+                        new_inst->pcState(), arch_reg.index(), src_reg->index(), phy_src_reg->index()
                         );
+                                new_inst->renameSrcReg(src_reg_idx, src_reg, phy_src_reg);
                 // Mark a register ready within the instruction.
                 new_inst->markSrcRegReady(src_reg_idx);
             }
@@ -1428,7 +1432,7 @@ InstructionQueue<Impl>::addToProducers(const DynInstPtr &new_inst)
         //PhysRegIdPtr dest_reg = new_inst->renamedDestRegIdx(dest_reg_idx);
         VirsRegIdPtr dest_reg = new_inst->renamedVirDestRegIdx(dest_reg_idx);
                 PhysRegIdPtr phys_dest_reg = new_inst->renamedDestRegIdx(dest_reg_idx);
-                DPRINTF(IQ,"renamed vir reg is %d\n",(long)dest_reg);
+                DPRINTF(IQ,"renamed vir reg is %d\n", dest_reg->index());
                 if (phys_dest_reg==NULL){
                         DPRINTF(IQ,"phys_reg is NULL\n");
                 }
@@ -1438,21 +1442,21 @@ InstructionQueue<Impl>::addToProducers(const DynInstPtr &new_inst)
         // Some registers have fixed mapping, and there is no need to track
         // dependencies as these instructions must be executed at commit.
 
-                if (dest_reg == 0) { //(dest_reg->isFixedMapping()) {
+        if (dest_reg->isFixedMapping()) {
             continue;
         }
 
-        if (!dependGraph.empty((long)dest_reg)) {
+        if (!dependGraph.empty(dest_reg->flatIndex())) {
             dependGraph.dump();
             panic("Dependency graph %i (flat: %i) not empty!",
-                  (long)dest_reg,
-                  (long)dest_reg);
+                  dest_reg->index(),
+                  dest_reg->flatIndex());
         }
 
-        dependGraph.setInst((long)dest_reg, new_inst);
+        dependGraph.setInst(dest_reg->flatIndex(), new_inst);
 
         // Mark the scoreboard to say it's not yet ready.
-        regScoreboard[(long)dest_reg] = false;
+        regScoreboard[dest_reg->flatIndex()] = false;
     }
 }
 

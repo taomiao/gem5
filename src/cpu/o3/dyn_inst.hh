@@ -222,7 +222,7 @@ class BaseO3DynInst : public BaseDynInst<Impl>
             const RegId& original_dest_reg =
                 this->staticInst->destRegIdx(idx);
                         PhysRegIdPtr prev_phys_reg = this->cpu->lookup(this->threadNumber,original_dest_reg,prev_vir_reg);
-                        DPRINTF(O3CPU,"set int reg operand id %d prev_vir_reg %d prev_phys_reg %d\n",idx,(long)prev_vir_reg,prev_phys_reg->index());
+                        DPRINTF(O3CPU,"set int reg operand id %d prev_vir_reg %d prev_phys_reg %d\n",idx, prev_vir_reg->index(), prev_phys_reg->index());
             switch (original_dest_reg.classValue()) {
               case IntRegClass:
                 this->setIntRegOperand(this->staticInst.get(), idx,
@@ -283,8 +283,8 @@ class BaseO3DynInst : public BaseDynInst<Impl>
         {
                 for (int i=0;i<this->numSrcRegs();i++){
                         if (this->_virSrcRegIdx[i]==vir_dst_reg){
-                                DPRINTF(O3CPU,"reWritePhysRegs rewrite vir_reg %d to phys_reg %d\n",(long)vir_dst_reg, dest_reg->index());
-                                assert(this->_physSrcRegIdx[i]==NULL);
+                                DPRINTF(O3CPU,"reWritePhysRegs rewrite vir_reg %d to phys_reg %d\n", vir_dst_reg->index(), dest_reg->index());
+                                //assert(this->_physSrcRegIdx[i]==NULL);
                                 this->_physSrcRegIdx[i] = dest_reg;
                         }
                 }
@@ -293,13 +293,26 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     RegVal
     readIntRegOperand(const StaticInst *si, int idx) override
     {
-        //	const RegId& arch_reg = si->srcRegIdx(idx);
-        //	VirsRegIdPtr vir_reg = (this->cpu)->lookup(this->threadNumber,arch_reg);
-        //	PhysRegIdPtr phys_reg = (this->cpu)->lookup(this->threadNumber,arch_reg,vir_reg);
-        //	DPRINTF(O3CPU," arch_reg %d vir_reg %d\n",arch_reg.index(),(long)vir_reg);
-                DPRINTF(O3CPU,"readIntRegOperand phys_reg is %d \n",this->_physSrcRegIdx[idx]->index());
-                assert(this->_physSrcRegIdx[idx] != NULL);
-        //	this->_physSrcRegIdx[idx] = phys_reg;
+		if (this->_physSrcRegIdx[idx] == NULL){
+        	if (this->isNonSpeculative() || this->isStore() || this->isAtomic()){
+				DPRINTF(O3CPU,"nonspeculative inst, read commitRenameMap\n");
+			    const RegId& arch_reg = si->srcRegIdx(idx);
+                VirsRegIdPtr vir_reg = (this->cpu)->lookupCommit(this->threadNumber,arch_reg);
+                PhysRegIdPtr phys_reg = (this->cpu)->lookupCommit(this->threadNumber,arch_reg,vir_reg);
+                this->_physSrcRegIdx[idx] = phys_reg;
+                
+			}
+			else{
+                 DPRINTF(O3CPU,"**********************\n");
+                 const RegId& arch_reg = si->srcRegIdx(idx);
+                 VirsRegIdPtr vir_reg = (this->cpu)->lookup(this->threadNumber,arch_reg);
+                 PhysRegIdPtr phys_reg = (this->cpu)->lookup(this->threadNumber,arch_reg,vir_reg);
+                 this->_physSrcRegIdx[idx] = phys_reg;
+                 DPRINTF(O3CPU," arch_reg %d vir_reg %d\n",arch_reg.index(), vir_reg->index());
+                 DPRINTF(O3CPU,"readIntRegOperand phys_reg is %d \n",this->_physSrcRegIdx[idx]->index());
+            }
+		}
+        assert(this->_physSrcRegIdx[idx] != NULL);
         return this->cpu->readIntReg(this->_physSrcRegIdx[idx]);
     }
 
@@ -427,7 +440,7 @@ class BaseO3DynInst : public BaseDynInst<Impl>
     {
                 if (this->_physDestRegIdx[idx]!=NULL){
                         const RegId& arch_reg = si->destRegIdx(idx);
-                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(),(long)(this->_virDestRegIdx[idx]));
+                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(), this->_virDestRegIdx[idx]->index());
                         PhysRegIdPtr phys_reg = this->cpu->lookup(this->threadNumber,arch_reg,this->_virDestRegIdx[idx]);
                         if (phys_reg!=NULL){
                                 DPRINTF(O3CPU,"get dest phys reg is %d\n",phys_reg->index());
@@ -435,23 +448,41 @@ class BaseO3DynInst : public BaseDynInst<Impl>
                         else{
                                 DPRINTF(O3CPU,"phys_reg is NULL,do not know where the phys reg comes!!!\n");
                         }
+                                                panic("setIntRegOperand _physDestRegIdx[idx] is not NULL.");
                 }
 
                 if (true){//this->_physDestRegIdx[idx]==NULL){
+						//search regfile for val
+                        //const RegId& arch_reg = si->destRegIdx(idx);
+						//PhysRegIdPtr targetPtr = this->cpu->searchRegVal(arch_reg.classValue(), val);
+						//if(targetPtr != NULL){
+						//	this->cpu->addPhysRegRC(targetPtr);
+						//	this->_physDestRegIdx[idx] = targetPtr;
+							
+						//}
+						//else{
                         // get a physical reg
-                        const RegId& arch_reg = si->destRegIdx(idx);
-                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(),(long)(this->_virDestRegIdx[idx]));
-                        PhysRegIdPtr phys_reg = this->cpu->getPhysReg(this->threadNumber,arch_reg,this->_virDestRegIdx[idx]);
-                        DPRINTF(O3CPU,"get dest phys reg is %d\n",phys_reg->index());
-                        this->_physDestRegIdx[idx] = phys_reg;
-                        //panic("physical reg is not allocated 2\n");
-                }
-                DPRINTF(O3CPU,"regval is %d\n",val);
-        this->cpu->setIntReg(this->_physDestRegIdx[idx], val);
-                this->dump();
-                //std::cout<<"test1"<<std::endl;
-        //BaseDynInst<Impl>::setIntRegOperand(si, idx, val);
-                //std::cout<<"test2"<<std::endl;
+                        	const RegId& arch_reg = si->destRegIdx(idx);
+                                                if (arch_reg.isZeroReg()){
+                                                        this->_physDestRegIdx[idx] = new PhysRegId(arch_reg.classValue(), 0, 0);
+                                                }
+                                                else{
+                            DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(), this->_virDestRegIdx[idx]->index());
+                            PhysRegIdPtr phys_reg = this->cpu->getPhysReg(this ,arch_reg,this->_virDestRegIdx[idx],val);
+							DPRINTF(O3CPU,"get dest phys reg is %d\n",phys_reg->index());
+                            this->_physDestRegIdx[idx] = phys_reg;
+                                                }
+                        	//panic("physical reg is not allocated 2\n");
+                
+                		//}
+						DPRINTF(O3CPU,"regval is %d\n",val);
+        				this->cpu->setIntReg(this->_physDestRegIdx[idx], val);
+               			this->dump();
+               			//std::cout<<"test1"<<std::endl;
+        				BaseDynInst<Impl>::setIntRegOperand(si, idx, val);
+               			//std::cout<<"test2"<<std::endl;
+
+				}
     }
 
     void
@@ -460,8 +491,8 @@ class BaseO3DynInst : public BaseDynInst<Impl>
                 if (this->_physDestRegIdx[idx]==NULL){
                         // get a physical reg
                         const RegId& arch_reg = si->destRegIdx(idx);
-                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(),(long)(this->_virDestRegIdx[idx]));
-                        PhysRegIdPtr phys_reg = this->cpu->getPhysReg(this->threadNumber,arch_reg,this->_virDestRegIdx[idx]);
+                        DPRINTF(O3CPU,"the arch_reg is %d , the vir reg is %d\n",arch_reg.index(), this->_virDestRegIdx[idx]->index());
+                        PhysRegIdPtr phys_reg = this->cpu->getPhysReg(this,arch_reg,this->_virDestRegIdx[idx],val);
                         DPRINTF(O3CPU,"get dest phys reg is %d\n",phys_reg->index());
                         this->_physDestRegIdx[idx] = phys_reg;
                         //panic("physical reg is not allocated 2\n");

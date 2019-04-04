@@ -59,22 +59,30 @@ UnifiedFreeList::UnifiedFreeList(const std::string &_my_name, int vir_int_reg,
     // Have the register file initialize the free list since it knows
     // about its internal organization
     //regFile->initFreeList(this);
+		long flat_reg_num = 0;
         for (long i=0;i<vir_int_reg;i++){
-                this->addIntReg((PhysRegId*)i);
+                this->addIntReg((PhysRegId*)flat_reg_num);
+				flat_reg_num++;
         }
         for (long i=0;i<vir_float_reg;i++){
-                this->addFloatReg((PhysRegIdPtr)i);
+                this->addFloatReg((PhysRegIdPtr)flat_reg_num);
+				flat_reg_num++;
         }
         for (long i=0;i<vir_vec_reg;i++){
-            if (vec_mode == Enums::Full)
-                        addVecReg((PhysRegIdPtr)i);
-                else
-                        addVecElem((PhysRegIdPtr)i);
+            if (vec_mode == Enums::Full){
+                        addVecReg((PhysRegIdPtr)flat_reg_num);
+				}
+                else{
+                        addVecElem((PhysRegIdPtr)flat_reg_num);
+					}
+			flat_reg_num++;
         }
         for (long i=0;i<vir_vecpred_reg;i++){
-                addVecPredReg((PhysRegIdPtr)i);
+                addVecPredReg((PhysRegIdPtr)flat_reg_num);
+				flat_reg_num++;
         }
         for (long i=0;i<vir_cc_reg;i++){
-                addCCReg((PhysRegIdPtr)i);
+                addCCReg((PhysRegIdPtr)flat_reg_num);
+				flat_reg_num++;
         }
 }

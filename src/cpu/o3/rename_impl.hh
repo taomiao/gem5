@@ -53,8 +53,11 @@
 #include "cpu/o3/rename.hh"
 #include "cpu/reg_class.hh"
 #include "debug/Activity.hh"
-#include "debug/Rename.hh"
 #include "debug/O3PipeView.hh"
+#include "debug/VirtualReg.hh"
+#include "debug/PhysReg.hh"
+#include "debug/Rename.hh"
+#include "debug/VirtualReg.hh"
 #include "params/DerivO3CPU.hh"
 
 using namespace std;
@@ -1002,9 +1005,20 @@ DefaultRename<Impl>::doSquash(const InstSeqNum &squashed_seq_num, ThreadID tid)
             // Tell the rename map to set the architected register to the
             // previous physical register that it was renamed to.
             renameMap[tid]->setEntry(hb_it->archReg, hb_it->prevPhysReg);
-                        DPRINTF(Rename,"set renameMap %d -> %d, freeList addReg %d\n",(hb_it->archReg).index(),(long)(hb_it->prevPhysReg),(long)(hb_it->newPhysReg));
+            DPRINTF(Rename,"set renameMap %d -> %d, freeList addReg %d\n",(hb_it->archReg).index(),(hb_it->prevPhysReg)->index(),(hb_it->newPhysReg)->index());
             // Put the renamed physical register back on the free list.
-            freeList->addReg(hb_it->archReg,hb_it->newPhysReg);
+            freeList->addVirReg(hb_it->archReg,hb_it->newPhysReg);
+            DPRINTF(VirtualReg,"%8d:vreg:ret_s:%8d:%8d\n",hb_it->instSeqNum, hb_it->newPhysReg->index(),freeList->numFreeIntRegs());
+
+            if (scoreboard->getReg(hb_it->newPhysReg)){
+                                PhysRegIdPtr new_phys_reg = renameMap[tid]->lookup(hb_it->archReg, hb_it->newPhysReg);
+                                if (new_phys_reg != NULL){
+										renameMap[tid]->setEntry(hb_it->archReg, hb_it->newPhysReg, NULL);
+                                        int rc = virFreeList->addPhysReg(new_phys_reg);
+                                        DPRINTF(PhysReg,"%8d:preg:ret_s:%8d:%8d:%8d\n",hb_it->instSeqNum, new_phys_reg->index(), rc, virFreeList->numFreeIntRegs());
+                                }
+								scoreboard->unsetReg(hb_it->newPhysReg);
+                        }
         }
 
         // Notify potential listeners that the register mapping needs to be
@@ -1054,15 +1068,28 @@ DefaultRename<Impl>::removeFromHistory(InstSeqNum inst_seq_num, ThreadID tid)
 
         DPRINTF(Rename, "[tid:%u]: Freeing up older rename of reg %i, "
                 "[sn:%lli].\n",
-                tid, (long)(hb_it->prevPhysReg),
+                tid, hb_it->prevPhysReg->index(),
                 hb_it->instSeqNum);
 
         // Don't free special phys regs like misc and zero regs, which
         // can be recognized because the new mapping is the same as
         // the old one.
-                DPRINTF(Rename,"hb_it newPhysReg is %d prevPhysReg is %d\n",(long)(hb_it->newPhysReg),(long)(hb_it->prevPhysReg));
-        if (hb_it->newPhysReg != hb_it->prevPhysReg) {
-            freeList->addReg(hb_it->archReg, hb_it->prevPhysReg);
+                DPRINTF(Rename,"hb_it newPhysReg is %d prevPhysReg is %d\n",(hb_it->newPhysReg)->index(),(hb_it->prevPhysReg)->index());
+        //if (hb_it->newPhysReg != hb_it->prevPhysReg) {
+        if (!hb_it->prevPhysReg->isZeroReg()){
+			freeList->addVirReg(hb_it->archReg, hb_it->prevPhysReg);
+			scoreboard->unsetReg(hb_it->prevPhysReg);
+			
+			// to unset the freed reg not must 
+            DPRINTF(VirtualReg,"%8d:vreg:ret_c:%8d:%8d\n",hb_it->instSeqNum, hb_it->prevPhysReg->index(), freeList->numFreeIntRegs());
+            PhysRegIdPtr old_phys_reg = renameMap[tid]->lookup(hb_it->archReg, hb_it->prevPhysReg);
+                        // update commitRenameMap , do it in commit_imple commithead func
+                        //PhysRegIdPtr new_phys_reg = renameMap[tid]->lookup(hb_it->archReg,(long)hb_it->newPhysReg);
+                        //commitRenameMap[tid].setEntry(hb_it->archReg,hb_it->newPhysReg,new_phys_reg);
+            assert(old_phys_reg != NULL);
+            int rc = virFreeList->addPhysReg(old_phys_reg);
+			renameMap[tid]->setEntry(hb_it->archReg, hb_it->prevPhysReg, NULL);
+            DPRINTF(PhysReg,"%8d:preg:ret_c:%8d:%5d:%8d\n",hb_it->instSeqNum, old_phys_reg->index(), rc, virFreeList->numFreeIntRegs());
         }
 
         ++renameCommittedMaps;
@@ -1083,21 +1110,15 @@ DefaultRename<Impl>::renameSrcRegs(const DynInstPtr &inst, ThreadID tid)
     // operands, and redirect them to the right physical register.
     for (int src_idx = 0; src_idx < num_src_regs; src_idx++) {
         const RegId& src_reg = inst->srcRegIdx(src_idx);
-        PhysRegIdPtr renamed_reg;
+        PhysRegIdPtr renamed_reg = NULL;
 
                 //TODO by taomiao
         VirsRegIdPtr renamed_virreg = NULL;
 
         renamed_virreg = map->lookup(tc->flattenRegId(src_reg));
-                DPRINTF(Rename,"arch reg %d renamed_virtual reg is %d\n",src_reg.index(),(long)renamed_virreg);
-                renamed_reg = map->lookup(tc->flattenRegId(src_reg),(long)renamed_virreg);
-                if (renamed_reg == NULL){
-                        DPRINTF(Rename,"physical reg is not allocated now\n");
-                }
-                else{
-                        DPRINTF(Rename,"renamed_physical reg is %d\n",renamed_reg->index());
-        }
-                switch (src_reg.classValue()) {
+                DPRINTF(Rename,"arch reg %d [flat:%d] renamed_virtual reg is %d\n",src_reg.index(),tc->flattenRegId(src_reg).flatIndex(), renamed_virreg->index());
+
+        switch (src_reg.classValue()) {
           case IntRegClass:
             intRenameLookups++;
             break;
@@ -1122,25 +1143,26 @@ DefaultRename<Impl>::renameSrcRegs(const DynInstPtr &inst, ThreadID tid)
         DPRINTF(Rename, "[tid:%u]: Looking up %s arch reg %i"
                 ",got vir reg %i\n", tid,
                 src_reg.className(), src_reg.index(),
-                (long)renamed_virreg
+                renamed_virreg->index()
                                 );
 
-        inst->renameSrcReg(src_idx, renamed_virreg, renamed_reg);
+        //inst->renameSrcReg(src_idx, renamed_virreg, renamed_reg);
                 DPRINTF(Rename,"lookup scoreboard to see if vir_reg allocated\n");
         // See if the register is ready or not.
         if (scoreboard->getReg(renamed_virreg)) {
+            renamed_reg = map->lookup(src_reg,renamed_virreg);
             DPRINTF(Rename, "[tid:%u]: virtual Register %d (flat: %d)"
-                    " is allocated.\n", tid, (long)renamed_virreg,
-                    (long)renamed_virreg);
+                    " is allocated.\n", tid, renamed_virreg->index(),
+                    renamed_virreg->flatIndex());
 
                         //TODO markVirRegReady(renamed_virreg);
             inst->markSrcRegReady(src_idx);
         } else {
-            DPRINTF(Rename, "[tid:%u]:virtual Register %d (flat: %d)"
-                    " is not allocated.\n", tid, (long)renamed_virreg,
-                    (long)renamed_virreg);
+            DPRINTF(Rename, "[tid:%u]:virtual Register %d (phys: %d)"
+                    " is not allocated.\n", tid, renamed_virreg->index(),
+                    renamed_virreg->flatIndex());
         }
-
+        inst->renameSrcReg(src_idx, renamed_virreg, renamed_reg);
         ++renameRenameLookups;
     }
 }
@@ -1163,7 +1185,7 @@ DefaultRename<Impl>::renameDestRegs(const DynInstPtr &inst, ThreadID tid)
                 // Do not allocte physical reg right now , allocate it when writeback
         rename_result = map->rename(flat_dest_regid);
 
-                DPRINTF(Rename,"Dest Rename result[0] is %d\n",(long)rename_result[0]);
+                DPRINTF(Rename,"Dest Rename result[0] is %d\n", rename_result[0]->index());
         inst->flattenDestReg(dest_idx, flat_dest_regid);
 
         // Mark Scoreboard entry as not ready
@@ -1172,8 +1194,8 @@ DefaultRename<Impl>::renameDestRegs(const DynInstPtr &inst, ThreadID tid)
         DPRINTF(Rename, "[tid:%u]: Renaming Dest arch reg %i (%s) to virtual "
                 "reg %i phys_reg is NULL %d.\n", tid, dest_reg.index(),
                 dest_reg.className(),
-                (long)rename_result[0],
-                (long)rename_result[1]);
+                rename_result[0]->index(),
+                rename_result[1]);
 //TODO hb
         // Record the rename information so that a history can be kept.
         RenameHistory hb_entry(inst->seqNum, flat_dest_regid,
@@ -1192,8 +1214,10 @@ DefaultRename<Impl>::renameDestRegs(const DynInstPtr &inst, ThreadID tid)
         // (rename_result.first), and record the previous physical
         // register that the same logical register was renamed to
         // (rename_result.second).
-        inst->renameDestReg(dest_idx,
-                                                        rename_result[0],
+        
+		DPRINTF(VirtualReg, "%8d:vreg:get:%8d:%8d\n",inst->seqNum, rename_result[2]->index(), rename_result[0]->index());
+		inst->renameDestReg(dest_idx,
+                            rename_result[0],
                             rename_result[1],
                             rename_result[2]);
 

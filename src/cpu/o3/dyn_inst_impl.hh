@@ -82,6 +82,7 @@ template <class Impl>BaseO3DynInst<Impl>::~BaseO3DynInst()
                      this->seqNum,
                      this->staticInst->disassemble(this->instAddr()));
 
+
             val = (this->decodeTick == -1) ? 0 : fetch + this->decodeTick;
             DPRINTFR(O3PipeView, "O3PipeView:decode:%llu\n", val);
             val = (this->renameTick == -1) ? 0 : fetch + this->renameTick;
@@ -93,7 +94,6 @@ template <class Impl>BaseO3DynInst<Impl>::~BaseO3DynInst()
             val = (this->completeTick == -1) ? 0 : fetch + this->completeTick;
             DPRINTFR(O3PipeView, "O3PipeView:complete:%llu\n", val);
             val = (this->commitTick == -1) ? 0 : fetch + this->commitTick;
-
             Tick valS = (this->storeTick == -1) ? 0 : fetch + this->storeTick;
             DPRINTFR(O3PipeView, "O3PipeView:retire:%llu:store:%llu\n", val, valS);
         }
@@ -134,12 +134,12 @@ BaseO3DynInst<Impl>::execute()
     // the TC).  Fix this.
     bool no_squash_from_TC = this->thread->noSquashFromTC;
     this->thread->noSquashFromTC = true;
-        DPRINTF(O3PipeView,"execute checkpoint 0\n");
+        //DPRINTF(O3PipeView,"execute checkpoint 0\n");
         //for (int i=0;i<this->staticInst->srcRegNum();i++){
         //	DPRINTF(O3PipView,
         //}
     this->fault = this->staticInst->execute(this, this->traceData);
-        DPRINTF(O3PipeView,"execute checkpoint 1\n");
+        //DPRINTF(O3PipeView,"execute checkpoint 1\n");
     this->thread->noSquashFromTC = no_squash_from_TC;
 
     return this->fault;
